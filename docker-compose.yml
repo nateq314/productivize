@@ -1,0 +1,21 @@
+version: '2'
+services:
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db-dev:/var/lib/postgresql/data
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile-api
+    ports:
+      - "3000:3000"
+    links:
+      - db
+    volumes:
+      - .:/app
+    command: yarn start
