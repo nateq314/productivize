@@ -5,8 +5,8 @@ const connections = require("../../knexfile");
 const knex = Knex(connections.development);
 Model.knex(knex);
 
-export default class User extends Model {
+export default class Todo extends Model {
   static get tableName() {
-    return "users";
+    return "todos";
   }
 }

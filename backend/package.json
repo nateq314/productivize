@@ -6,6 +6,7 @@
   "scripts": {
     "migrate": "knex migrate:latest",
     "start": "yarn run build && yarn run migrate && nodemon build/server",
+    "start-dev": "yarn run migrate && nodemon --exec babel-node -- ./src/server",
     "build": "babel src -d build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,16 +14,25 @@
   "license": "ISC",
   "dependencies": {
     "apollo-server-express": "^1.2.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.4",
     "express": "^4.16.2",
     "graphql": "^0.11.7",
     "graphql-tools": "^2.7.2",
+    "jsonwebtoken": "^8.2.0",
     "knex": "^0.13.0",
     "objection": "^0.9.0",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
     "pg": "^7.3.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "eslint": "^4.18.2",
+    "eslint-plugin-import": "^2.9.0",
     "nodemon": "^1.12.1"
   }
 }

@@ -1,0 +1,32 @@
+Arguments: 
+  /usr/local/Cellar/node/9.9.0/bin/node /usr/local/Cellar/yarn/1.5.1/libexec/bin/yarn.js run api bash
+
+PATH: 
+  /Users/williamquarles/.rvm/gems/ruby-2.1.4/bin:/Users/williamquarles/.rvm/gems/ruby-2.1.4@global/bin:/Users/williamquarles/.rvm/rubies/ruby-2.1.4/bin:/Users/williamquarles/google-cloud-sdk/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Wireshark.app/Contents/MacOS:/Users/williamquarles/Library/Android/sdk/tools:/Users/williamquarles/Library/Android/sdk/platform-tools:/Users/williamquarles/.rvm/bin
+
+Yarn version: 
+  1.5.1
+
+Node version: 
+  9.9.0
+
+Platform: 
+  darwin x64
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: Couldn't find a package.json file in "/Users/williamquarles/study/graphql/apollo"
+      at new MessageError (/usr/local/Cellar/yarn/1.5.1/libexec/lib/cli.js:186:110)
+      at /usr/local/Cellar/yarn/1.5.1/libexec/lib/cli.js:40048:15
+      at Generator.next (<anonymous>)
+      at step (/usr/local/Cellar/yarn/1.5.1/libexec/lib/cli.js:98:30)
+      at /usr/local/Cellar/yarn/1.5.1/libexec/lib/cli.js:109:13
+      at <anonymous>

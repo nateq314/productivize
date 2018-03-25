@@ -17,5 +17,14 @@ services:
     links:
       - db
     volumes:
-      - .:/app
+      - ./backend:/app
+    command: yarn run start-dev
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile-web
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./frontend:/app
     command: yarn start
