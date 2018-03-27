@@ -18,21 +18,21 @@ const TodoInput = props => {
     >
       {(createTodo, { data }) => (
         <form
-          id="TodoInput"
+          id="TodoInputForm"
           onSubmit={e => {
             e.preventDefault();
             createTodo({ variables: { content: input.value } });
             input.value = "";
           }}
         >
-          <label htmlFor="todoInput">Enter a new one: </label>
           <input
             id="todoInput"
             ref={node => {
               input = node;
             }}
+            placeholder="Enter a new to-do"
           />
-          <button type="submit">Create To-do</button>
+          <button type="submit">ADD</button>
         </form>
       )}
     </Mutation>

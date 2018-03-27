@@ -22,6 +22,7 @@ const typeDefs = `
 		user: User!
 		content: String!
     important: Boolean!
+    completedOn: Date
     created_at: Date!
     updated_at: Date!
 	}
@@ -37,7 +38,7 @@ const typeDefs = `
     createTodo(user_id: Int, content: String, important: Boolean): Todo
     deleteTodo(id: Int!): Todo
     updateUser(id: Int!, email: String, first_name: String, last_name: String): User
-		updateTodo(id: Int!, content: String, important: Boolean): Todo
+		updateTodo(id: Int!, content: String, important: Boolean, completedOn: Date): Todo
 	}
 `;
 

@@ -8,7 +8,6 @@ import "./App.css";
 
 const App = () => (
   <div id="App">
-    <h1>My To-do List</h1>
     <TodoInput />
     <Query query={FETCH_TODOS_QUERY}>
       {({ data, error, loading }) => {

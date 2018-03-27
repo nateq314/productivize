@@ -1,5 +1,94 @@
 .App {
   text-align: center; }
 
-.TodoListItem .importance.unimportant {
-  opacity: 0.5; }
+#TodoInputForm {
+  margin-left: 40px;
+  margin-top: 45px; }
+  #TodoInputForm button {
+    vertical-align: bottom;
+    font-size: 1.5em;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: none;
+    margin-left: 20px;
+    background-color: #fff;
+    opacity: 0.5;
+    transition: 0.5s opacity;
+    cursor: pointer; }
+    #TodoInputForm button:focus {
+      opacity: 1; }
+    #TodoInputForm button:hover {
+      opacity: 1; }
+
+#todoInput {
+  font-size: 1.25em;
+  border-radius: 6px;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.07);
+  padding-left: 15px;
+  color: #eee;
+  line-height: 40px;
+  width: 600px; }
+  #todoInput::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    color: #ccc; }
+  #todoInput::-moz-placeholder {
+    /* Firefox 19+ */
+    color: #ccc; }
+  #todoInput:-ms-input-placeholder {
+    /* IE 10+ */
+    color: #ccc; }
+  #todoInput:-moz-placeholder {
+    /* Firefox 18- */
+    color: #ccc; }
+
+#TodoList {
+  list-style-type: none;
+  margin-top: 40px;
+  padding-left: 0px; }
+
+.TodoListItem {
+  height: 35px;
+  border-bottom: 1px solid #333;
+  padding: 10px 20px 10px 20px;
+  display: flex;
+  align-items: center; }
+  .TodoListItem:first-of-type {
+    border-top: 1px solid #333; }
+  .TodoListItem.completed .todo-content {
+    text-decoration: line-through; }
+  .TodoListItem.important .todo-content {
+    color: #ffab00; }
+  .TodoListItem .todo-completed {
+    margin-right: 30px;
+    transform: scale(2.5);
+    cursor: pointer; }
+  .TodoListItem .todo-main .todo-content {
+    font-size: 1.1em; }
+  .TodoListItem .todo-main .todo-completedOn {
+    color: #666;
+    font-size: 0.8em;
+    margin-top: 5px; }
+  .TodoListItem form.edit-todo {
+    display: inline-block;
+    vertical-align: top; }
+    .TodoListItem form.edit-todo input {
+      font-size: 1em; }
+  .TodoListItem .todo-option-icons {
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%; }
+    .TodoListItem .todo-option-icons svg {
+      height: 25px;
+      cursor: pointer; }
+  .TodoListItem svg.todo-importance {
+    margin-right: 30px;
+    fill: #ffab00; }
+  .TodoListItem svg.todo-delete {
+    fill: #f00;
+    opacity: 0.15;
+    transition: 0.5s opacity; }
+    .TodoListItem svg.todo-delete:hover svg {
+      opacity: 0.75; }
