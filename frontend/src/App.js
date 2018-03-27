@@ -1,25 +1,23 @@
-import React, { Component } from "react";
-import "./App.css";
+import React from "react";
 import { Query } from "react-apollo";
-import gql from "graphql-tag";
+import { FETCH_TODOS_QUERY } from "./queries";
+import TodoList from "./components/TodoList";
+import TodoInput from "./components/TodoInput";
 
-const FETCH_TODOS_QUERY = gql`
-  query {
-    todos(user_id: 12) {
-      content
-      important
-    }
-  }
-`;
+import "./App.css";
 
 const App = () => (
-  <Query query={FETCH_TODOS_QUERY}>
-    {({ data, error, loading }) => {
-      if (loading) return <div>Loading...</div>;
-      if (error) return <div>Error :(</div>;
-      return <ul>{data.todos.map((todo, idx) => <li key={idx}>{todo.content}</li>)}</ul>;
-    }}
-  </Query>
+  <div id="App">
+    <h1>My To-do List</h1>
+    <TodoInput />
+    <Query query={FETCH_TODOS_QUERY}>
+      {({ data, error, loading }) => {
+        if (loading) return <div>Loading...</div>;
+        if (error) return <div>Error :(</div>;
+        return <TodoList todos={data.todos} />;
+      }}
+    </Query>
+  </div>
 );
 
 export default App;
