@@ -1,9 +1,15 @@
 .App {
   text-align: center; }
 
+#header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 0px; }
+
 #TodoInputForm {
   margin-left: 40px;
-  margin-top: 45px; }
+  display: inline-block; }
   #TodoInputForm button {
     vertical-align: bottom;
     font-size: 1.5em;
@@ -20,6 +26,20 @@
     #TodoInputForm button:hover {
       opacity: 1; }
 
+#TodoFilter {
+  display: inline-block;
+  margin-right: 20px; }
+  #TodoFilter span {
+    display: inline-block;
+    margin: 0px 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 14px 15px 10px 15px;
+    border-radius: 8px;
+    transition: 0.5s background-color;
+    cursor: pointer; }
+    #TodoFilter span.active {
+      background-color: #005678; }
+
 #todoInput {
   font-size: 1.25em;
   border-radius: 6px;
@@ -28,7 +48,7 @@
   padding-left: 15px;
   color: #eee;
   line-height: 40px;
-  width: 600px; }
+  width: 500px; }
   #todoInput::-webkit-input-placeholder {
     /* Chrome/Opera/Safari */
     color: #ccc; }
@@ -44,8 +64,8 @@
 
 #TodoList {
   list-style-type: none;
-  margin-top: 40px;
-  padding-left: 0px; }
+  padding-left: 0px;
+  margin: 0px; }
 
 .TodoListItem {
   height: 35px;
@@ -55,10 +75,11 @@
   align-items: center; }
   .TodoListItem:first-of-type {
     border-top: 1px solid #333; }
-  .TodoListItem.completed .todo-content {
-    text-decoration: line-through; }
   .TodoListItem.important .todo-content {
     color: #ffab00; }
+  .TodoListItem.completed .todo-content {
+    text-decoration: line-through;
+    color: #707070; }
   .TodoListItem .todo-completed {
     margin-right: 30px;
     transform: scale(2.5);
@@ -66,7 +87,7 @@
   .TodoListItem .todo-main .todo-content {
     font-size: 1.1em; }
   .TodoListItem .todo-main .todo-completedOn {
-    color: #666;
+    color: #404040;
     font-size: 0.8em;
     margin-top: 5px; }
   .TodoListItem form.edit-todo {
@@ -90,5 +111,5 @@
     fill: #f00;
     opacity: 0.15;
     transition: 0.5s opacity; }
-    .TodoListItem svg.todo-delete:hover svg {
+    .TodoListItem svg.todo-delete:hover {
       opacity: 0.75; }

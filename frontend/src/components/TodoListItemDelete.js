@@ -17,6 +17,15 @@ export default ({ todo }) => (
       });
     }}
   >
-    {(deleteTodo, { data }) => <TrashAltRegular className="todo-delete" onClick={deleteTodo} />}
+    {(deleteTodo, { data }) => (
+      <TrashAltRegular
+        className="todo-delete"
+        onClick={() => {
+          if (window.confirm("Are you sure you want to delete this to-do?")) {
+            deleteTodo();
+          }
+        }}
+      />
+    )}
   </Mutation>
 );

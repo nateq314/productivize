@@ -36,7 +36,7 @@ export default ({ beginEdit, endEdit, isEditing, todo }) => {
             ref={node => {
               inputRef = node;
             }}
-            // onBlur={endEdit}
+            onBlur={endEdit}
             onFocus={editOnFocus}
             onKeyDown={e => {
               if (e.keyCode === 27) {
