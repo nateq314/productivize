@@ -1,6 +1,7 @@
 import { makeExecutableSchema } from "graphql-tools";
 import { GraphQLScalarType } from "graphql";
 import { Kind } from "graphql/language";
+import { PubSub, withFilter } from "graphql-subscriptions";
 import User from "./models/user";
 import Todo from "./models/todo";
 
@@ -39,8 +40,14 @@ const typeDefs = `
     deleteTodo(id: Int!): Todo
     updateUser(id: Int!, email: String, first_name: String, last_name: String): User
 		updateTodo(id: Int!, content: String, important: Boolean, completedOn: Date): Todo
-	}
+  }
+  
+  type Subscription {
+    todoAdded(user_id: Int!): Todo
+  }
 `;
+
+const pubsub = new PubSub();
 
 const resolvers = {
   Query: {
@@ -60,10 +67,12 @@ const resolvers = {
         .insert({ email, first_name, last_name })
         .returning("*");
     },
-    createTodo: (root, { user_id, content }) => {
-      return Todo.query()
+    createTodo: async (root, { user_id, content }) => {
+      const todoAdded = await Todo.query()
         .insert({ user_id, content })
         .returning("*");
+      pubsub.publish(`todoAdded`, { todoAdded, user_id });
+      return todoAdded;
     },
     deleteTodo: async (root, { id }) => {
       const deletedTodos = await Todo.query()
@@ -95,7 +104,17 @@ const resolvers = {
       }
       return null;
     }
-  })
+  }),
+  Subscription: {
+    todoAdded: {
+      subscribe: withFilter(
+        () => pubsub.asyncIterator("todoAdded"),
+        (payload, variables) => {
+          return payload.user_id === variables.user_id;
+        }
+      )
+    }
+  }
 };
 
 const schema = makeExecutableSchema({

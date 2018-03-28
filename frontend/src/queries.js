@@ -51,3 +51,16 @@ export const UPDATE_TODO_QUERY = gql`
     }
   }
 `;
+
+export const ADD_TODOS_SUBSCRIPTION = gql`
+  subscription todoAdded($user_id: Int!) {
+    todoAdded(user_id: $user_id) {
+      id
+      content
+      important
+      completedOn
+      created_at
+      updated_at
+    }
+  }
+`;

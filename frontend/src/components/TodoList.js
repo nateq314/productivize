@@ -11,6 +11,10 @@ class TodoList extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.props.subscribeToNewTodos();
+  }
+
   render() {
     return (
       <ul id="TodoList">

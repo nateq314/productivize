@@ -12,18 +12,18 @@ $placeholder-color: #ccc;
 }
 
 #TodoInputForm {
-  margin-left: 40px;
+  margin-left: 50px;
   display: inline-block;
 
   button {
     vertical-align: bottom;
     font-size: 1.5em;
     padding: 6px 10px;
-    border-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
     border: none;
-    margin-left: 20px;
     background-color: #fff;
-    opacity: 0.5;
+    opacity: 0.4;
     transition: 0.5s opacity;
     cursor: pointer;
 
@@ -57,12 +57,13 @@ $placeholder-color: #ccc;
 
 #todoInput {
   font-size: 1.25em;
-  border-radius: 6px;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
   border: none;
   background-color: rgba(255, 255, 255, 0.07);
   padding-left: 15px;
   color: #eee;
-  line-height: 40px;
+  line-height: 39px;
   width: 500px;
 
   &::-webkit-input-placeholder {

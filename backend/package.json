@@ -18,6 +18,7 @@
     "cors": "^2.8.4",
     "express": "^4.16.2",
     "graphql": "^0.11.7",
+    "graphql-subscriptions": "^0.5.8",
     "graphql-tools": "^2.7.2",
     "jsonwebtoken": "^8.2.0",
     "knex": "^0.13.0",
@@ -25,7 +26,8 @@
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "pg": "^7.3.0"
+    "pg": "^7.3.0",
+    "subscriptions-transport-ws": "^0.9.7"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

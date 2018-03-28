@@ -6,16 +6,7 @@ const TodoInput = props => {
   let input;
 
   return (
-    <Mutation
-      mutation={CREATE_TODO_QUERY}
-      update={(cache, { data: { createTodo } }) => {
-        const { todos } = cache.readQuery({ query: FETCH_TODOS_QUERY });
-        cache.writeQuery({
-          query: FETCH_TODOS_QUERY,
-          data: { todos: todos.concat([createTodo]) }
-        });
-      }}
-    >
+    <Mutation mutation={CREATE_TODO_QUERY}>
       {(createTodo, { data }) => (
         <form
           id="TodoInputForm"

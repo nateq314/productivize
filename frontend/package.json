@@ -6,6 +6,7 @@
     "apollo-cache-inmemory": "^1.1.11",
     "apollo-client": "^2.2.7",
     "apollo-link-http": "^1.5.2",
+    "apollo-link-ws": "^1.0.7",
     "graphql": "0.13.0",
     "graphql-tag": "^2.8.0",
     "immutable": "^3.8.2",
@@ -14,7 +15,8 @@
     "react": "^16.0.0",
     "react-apollo": "^2.0.4",
     "react-dom": "^16.0.0",
-    "react-scripts": "1.0.17"
+    "react-scripts": "1.0.17",
+    "subscriptions-transport-ws": "^0.9.7"
   },
   "scripts": {
     "build-css": "node-sass-chokidar src/ -o src/",

@@ -5,10 +5,12 @@ import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 
 import { ApolloClient } from "apollo-client";
-import { ApolloLink, concat } from "apollo-link";
+import { ApolloLink, concat, split } from "apollo-link";
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloProvider } from "react-apollo";
+import { WebSocketLink } from "apollo-link-ws";
+import { getMainDefinition } from "apollo-utilities";
 
 const authMiddleware = new ApolloLink((operation, forward) => {
   // add the authorization to the headers
@@ -22,13 +24,29 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   return forward(operation);
 });
 
+const httpLink = new HttpLink({
+  uri: "http://localhost:3000/api/graphql"
+});
+
+const wsLink = new WebSocketLink({
+  uri: "ws://localhost:3000/subscriptions",
+  options: {
+    reconnect: true
+  }
+});
+
+const link = split(
+  // split based on operation type
+  ({ query }) => {
+    const { kind, operation } = getMainDefinition(query);
+    return kind === "OperationDefinition" && operation === "subscription";
+  },
+  wsLink,
+  httpLink
+);
+
 const client = new ApolloClient({
-  link: concat(
-    authMiddleware,
-    new HttpLink({
-      uri: "http://localhost:3000/api/graphql"
-    })
-  ),
+  link: concat(authMiddleware, link),
   cache: new InMemoryCache()
 });
 
