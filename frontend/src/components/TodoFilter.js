@@ -1,11 +1,11 @@
 import React from "react";
-import { FILTER_ALL, FILTER_COMPLETED, FILTER_UNCOMPLETED } from "../App";
+
+export const FILTER_ALL = 0;
+export const FILTER_UNCOMPLETED = 1;
+export const FILTER_COMPLETED = 2;
 
 export default ({ filter, onChange }) => (
   <div id="TodoFilter">
-    <span id="filter-all" className={filter === FILTER_ALL ? "active" : ""} onClick={() => onChange(FILTER_ALL)}>
-      ALL
-    </span>
     <span
       id="filter-uncompleted"
       className={filter === FILTER_UNCOMPLETED ? "active" : ""}
@@ -19,6 +19,9 @@ export default ({ filter, onChange }) => (
       onClick={() => onChange(FILTER_COMPLETED)}
     >
       COMPLETED
+    </span>
+    <span id="filter-all" className={filter === FILTER_ALL ? "active" : ""} onClick={() => onChange(FILTER_ALL)}>
+      ALL
     </span>
   </div>
 );

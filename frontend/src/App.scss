@@ -4,15 +4,38 @@ $placeholder-color: #ccc;
   text-align: center;
 }
 
-#header {
+#Header {
+  padding: 25px 30px 20px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #363454;
+
+  h1 {
+    margin: 0px;
+    font-size: 1.5em;
+  }
+
+  #logout {
+    opacity: 0.6;
+    transition: 0.5s opacity;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+#subheader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 40px 0px;
+  padding: 40px 0px 40px 0px;
 }
 
 #TodoInputForm {
-  margin-left: 50px;
+  margin-left: 10px;
   display: inline-block;
 
   button {
@@ -85,15 +108,21 @@ $placeholder-color: #ccc;
 }
 
 #TodoList {
-  list-style-type: none;
-  padding-left: 0px;
-  margin: 0px;
+  ul {
+    list-style-type: none;
+    padding-left: 0px;
+    margin: 0px;
+  }
+}
+
+#no-todos {
+  margin: 0px 30px;
 }
 
 .TodoListItem {
   height: 35px;
   border-bottom: 1px solid #333;
-  padding: 10px 20px 10px 20px;
+  padding: 10px 30px 10px 30px;
   display: flex;
   align-items: center;
 
@@ -103,7 +132,7 @@ $placeholder-color: #ccc;
 
   &.important {
     .todo-content {
-      color: #ffab00;
+      color: #ff5f00;
     }
   }
 
@@ -156,7 +185,7 @@ $placeholder-color: #ccc;
 
   svg.todo-importance {
     margin-right: 30px;
-    fill: #ffab00;
+    fill: #ff5f00;
   }
 
   svg.todo-delete {
@@ -167,5 +196,51 @@ $placeholder-color: #ccc;
     fill: #f00;
     opacity: 0.15;
     transition: 0.5s opacity;
+  }
+}
+
+#Login {
+  display: flex;
+  margin-top: 35vh;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 40px 0px rgba(255, 255, 255, 0.25);
+  padding: 70px;
+
+  .form-group {
+    input {
+      font-size: 1.5em;
+      border: none;
+      padding: 10px;
+      padding-left: 15px;
+      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      margin-bottom: 30px;
+
+      &::-webkit-input-placeholder {
+        /* Chrome/Opera/Safari */
+        color: $placeholder-color;
+      }
+      &::-moz-placeholder {
+        /* Firefox 19+ */
+        color: $placeholder-color;
+      }
+      &:-ms-input-placeholder {
+        /* IE 10+ */
+        color: $placeholder-color;
+      }
+      &:-moz-placeholder {
+        /* Firefox 18- */
+        color: $placeholder-color;
+      }
+    }
+  }
+
+  button {
+    font-size: 1.5em;
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
   }
 }

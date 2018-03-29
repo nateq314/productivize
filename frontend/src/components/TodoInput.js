@@ -1,18 +1,18 @@
 import React from "react";
 import { Mutation } from "react-apollo";
-import { CREATE_TODO_QUERY, FETCH_TODOS_QUERY } from "../queries";
+import { CREATE_TODO_QUERY } from "../queries";
 
-const TodoInput = props => {
+const TodoInput = ({ user }) => {
   let input;
 
   return (
-    <Mutation mutation={CREATE_TODO_QUERY}>
+    <Mutation mutation={CREATE_TODO_QUERY} variables={{ user_id: user.id }}>
       {(createTodo, { data }) => (
         <form
           id="TodoInputForm"
           onSubmit={e => {
             e.preventDefault();
-            createTodo({ variables: { content: input.value } });
+            createTodo({ variables: { user_id: user.id, content: input.value } });
             input.value = "";
           }}
         >

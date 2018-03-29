@@ -41,9 +41,15 @@ const typeDefs = `
     updateUser(id: Int!, email: String, first_name: String, last_name: String): User
 		updateTodo(id: Int!, content: String, important: Boolean, completedOn: Date): Todo
   }
+
+  type TodoUpdate {
+    todoAdded: Todo
+    todoUpdated: Todo
+    todoDeleted: Todo
+  }
   
   type Subscription {
-    todoAdded(user_id: Int!): Todo
+    todosUpdate(user_id: Int!): TodoUpdate
   }
 `;
 
@@ -71,18 +77,23 @@ const resolvers = {
       const todoAdded = await Todo.query()
         .insert({ user_id, content })
         .returning("*");
-      pubsub.publish(`todoAdded`, { todoAdded, user_id });
-      return todoAdded;
+      const todosUpdate = { todoAdded };
+      pubsub.publish("todosUpdate", { user_id, todosUpdate });
     },
     deleteTodo: async (root, { id }) => {
       const deletedTodos = await Todo.query()
         .delete()
         .where({ id })
         .returning("*");
-      return deletedTodos[0];
+      const { user_id, ...todoDeleted } = deletedTodos[0];
+      const todosUpdate = { todoDeleted };
+      pubsub.publish("todosUpdate", { user_id, todosUpdate });
     },
-    updateTodo: (root, { id, ...updates }) => {
-      return Todo.query().patchAndFetchById(id, updates);
+    updateTodo: async (root, { id, ...updates }) => {
+      const result = await Todo.query().patchAndFetchById(id, updates);
+      const { user_id, ...todoUpdated } = result;
+      const todosUpdate = { todoUpdated };
+      pubsub.publish("todosUpdate", { user_id, todosUpdate });
     },
     updateUser: (root, { id, ...updates }) => {
       return User.query().patchAndFetchById(id, updates);
@@ -106,9 +117,9 @@ const resolvers = {
     }
   }),
   Subscription: {
-    todoAdded: {
+    todosUpdate: {
       subscribe: withFilter(
-        () => pubsub.asyncIterator("todoAdded"),
+        () => pubsub.asyncIterator("todosUpdate"),
         (payload, variables) => {
           return payload.user_id === variables.user_id;
         }

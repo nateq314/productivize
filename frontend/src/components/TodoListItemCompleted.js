@@ -4,7 +4,7 @@ import { UPDATE_TODO_QUERY } from "../queries";
 
 export default ({ todo }) => (
   <Mutation mutation={UPDATE_TODO_QUERY}>
-    {(updateTodo, { data }) => {
+    {(updateTodo, { data: mutationResult }) => {
       return (
         <input
           type="checkbox"
