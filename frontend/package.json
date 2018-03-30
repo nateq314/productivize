@@ -12,10 +12,10 @@
     "immutable": "^3.8.2",
     "node-sass-chokidar": "^1.2.1",
     "npm-run-all": "^4.1.2",
-    "react": "^16.0.0",
+    "react": "^16.3.0",
     "react-apollo": "^2.0.4",
-    "react-dom": "^16.0.0",
-    "react-scripts": "1.0.17",
+    "react-dom": "^16.3.0",
+    "react-scripts": "1.1.1",
     "subscriptions-transport-ws": "^0.9.7"
   },
   "scripts": {
