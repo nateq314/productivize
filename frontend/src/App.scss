@@ -1,11 +1,53 @@
 $placeholder-color: #ccc;
+a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.form-group {
+  padding: 10px 0px;
+
+  label {
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+    padding-right: 15px;
+  }
+
+  input {
+    border: none;
+    padding: 6px 0px 6px 10px;
+    background-color: rgba(255, 255, 255, 0.25);
+    color: #fff;
+    border-radius: 6px;
+    font-size: 1em;
+  }
+}
+
+button {
+  font-size: 1em;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  background-color: #fff;
+  opacity: 0.4;
+  transition: 0.5s opacity;
+  cursor: pointer;
+
+  &:focus {
+    opacity: 1;
+  }
+  &:hover {
+    opacity: 1;
+  }
+}
 
 .App {
   text-align: center;
 }
 
-#Header {
-  padding: 25px 30px 20px 30px;
+#AppHeader {
+  padding: 15px 30px 10px 30px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -13,25 +55,40 @@ $placeholder-color: #ccc;
 
   h1 {
     margin: 0px;
-    font-size: 1.5em;
+    font-size: 1.2em;
   }
 
-  #logout {
-    opacity: 0.6;
-    transition: 0.5s opacity;
-    cursor: pointer;
+  #menuItems {
+    .menuItem {
+      float: left;
+      margin-left: 30px;
+    }
+    a.menuItem {
+      cursor: pointer;
+      opacity: 0.6;
+      transition: 0.5s opacity;
 
-    &:hover {
+      &:hover {
+        opacity: 1;
+      }
+    }
+    #user_name {
+      color: #cadbff;
+      margin-right: 30px;
       opacity: 1;
     }
   }
+}
+
+.route {
+  margin: 0px 30px;
 }
 
 #subheader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 40px 0px 40px 0px;
+  padding: 30px 0px 30px 0px;
 }
 
 #TodoInputForm {
@@ -40,36 +97,21 @@ $placeholder-color: #ccc;
 
   button {
     vertical-align: bottom;
-    font-size: 1.5em;
-    padding: 6px 10px;
-    border-top-right-radius: 6px;
-    border-bottom-right-radius: 6px;
-    border: none;
-    background-color: #fff;
-    opacity: 0.4;
-    transition: 0.5s opacity;
-    cursor: pointer;
-
-    &:focus {
-      opacity: 1;
-    }
-    &:hover {
-      opacity: 1;
-    }
+    margin-left: 20px;
   }
 }
 
 #TodoFilter {
   display: inline-block;
-  margin-right: 20px;
 
   span {
     display: inline-block;
     margin: 0px 10px;
     background-color: rgba(255, 255, 255, 0.1);
-    padding: 14px 15px 10px 15px;
+    padding: 10px 15px 6px 15px;
     border-radius: 8px;
     transition: 0.5s background-color;
+    font-size: 0.8em;
     cursor: pointer;
 
     &.active {
@@ -79,15 +121,14 @@ $placeholder-color: #ccc;
 }
 
 #todoInput {
-  font-size: 1.25em;
-  border-top-left-radius: 6px;
-  border-bottom-left-radius: 6px;
+  font-size: 1em;
+  border-radius: 6px;
   border: none;
   background-color: rgba(255, 255, 255, 0.07);
   padding-left: 15px;
   color: #eee;
-  line-height: 39px;
-  width: 500px;
+  line-height: 30px;
+  width: 400px;
 
   &::-webkit-input-placeholder {
     /* Chrome/Opera/Safari */
@@ -113,10 +154,6 @@ $placeholder-color: #ccc;
     padding-left: 0px;
     margin: 0px;
   }
-}
-
-#no-todos {
-  margin: 0px 30px;
 }
 
 .TodoListItem {

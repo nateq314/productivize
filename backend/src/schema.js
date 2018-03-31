@@ -38,8 +38,8 @@ const typeDefs = `
 		createUser(email: String, first_name: String, last_name: String): User
     createTodo(user_id: Int, content: String, important: Boolean): Todo
     deleteTodo(id: Int!): Todo
-    updateUser(id: Int!, email: String, first_name: String, last_name: String): User
-		updateTodo(id: Int!, content: String, important: Boolean, completedOn: Date): Todo
+    updateUser(id: Int!, email: String, first_name: String, last_name: String, updated_at: Date): User
+		updateTodo(id: Int!, content: String, important: Boolean, completedOn: Date, updated_at: Date): Todo
   }
 
   type TodoUpdate {
@@ -50,6 +50,7 @@ const typeDefs = `
   
   type Subscription {
     todosUpdate(user_id: Int!): TodoUpdate
+    userUpdate(id: Int!): User
   }
 `;
 
@@ -90,12 +91,14 @@ const resolvers = {
       pubsub.publish("todosUpdate", { user_id, todosUpdate });
     },
     updateTodo: async (root, { id, ...updates }) => {
+      updates.updated_at = new Date();
       const result = await Todo.query().patchAndFetchById(id, updates);
       const { user_id, ...todoUpdated } = result;
       const todosUpdate = { todoUpdated };
       pubsub.publish("todosUpdate", { user_id, todosUpdate });
     },
     updateUser: (root, { id, ...updates }) => {
+      updates.updated_at = new Date();
       return User.query().patchAndFetchById(id, updates);
     }
   },
@@ -120,9 +123,13 @@ const resolvers = {
     todosUpdate: {
       subscribe: withFilter(
         () => pubsub.asyncIterator("todosUpdate"),
-        (payload, variables) => {
-          return payload.user_id === variables.user_id;
-        }
+        (payload, variables) => payload.user_id === variables.user_id
+      )
+    },
+    userUpdate: {
+      subscribe: withFilter(
+        () => pubsub.asyncIterator("userUpdate"),
+        (payload, variables) => payload.id === variables.id
       )
     }
   }

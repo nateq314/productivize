@@ -77,3 +77,27 @@ export const UPDATE_TODOS_SUBSCRIPTION = gql`
     }
   }
 `;
+
+export const UPDATE_USER_QUERY = gql`
+  mutation updateUser($id: Int!, $first_name: String, $last_name: String, $email: String) {
+    updateUser(id: $id, first_name: $first_name, last_name: $last_name, email: $email) {
+      id
+      first_name
+      last_name
+      email
+      updated_at
+    }
+  }
+`;
+
+export const UPDATE_USER_SUBSCRIPTION = gql`
+  subscription userUpdate($id: Int!) {
+    userUpdate(id: $id) {
+      id
+      first_name
+      last_name
+      email
+      updated_at
+    }
+  }
+`;
