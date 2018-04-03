@@ -9,19 +9,6 @@
     border-top: 1px solid #333;
   }
 
-  &.important {
-    .todo-content {
-      color: #ff5f00;
-    }
-  }
-
-  &.completed {
-    .todo-content {
-      text-decoration: line-through;
-      color: #707070;
-    }
-  }
-
   .todo-option-icons {
     flex-grow: 1;
     display: flex;
