@@ -1,0 +1,20 @@
+form.edit-todo {
+  display: inline-block;
+  vertical-align: top;
+
+  input {
+    font-size: 1em;
+  }
+}
+
+.todo-main {
+  .todo-content {
+    font-size: 1.1em;
+  }
+
+  .todo-completedOn {
+    color: #404040;
+    font-size: 0.8em;
+    margin-top: 5px;
+  }
+}

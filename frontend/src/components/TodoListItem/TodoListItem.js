@@ -1,8 +1,10 @@
 import React from "react";
-import TodoListItemImportance from "./TodoListItemImportance";
-import TodoListItemContent from "./TodoListItemContent";
-import TodoListItemDelete from "./TodoListItemDelete";
-import TodoListItemCompleted from "./TodoListItemCompleted";
+import TodoListItemImportance from "../TodoListItemImportance/TodoListItemImportance";
+import TodoListItemContent from "../TodoListItemContent/TodoListItemContent";
+import TodoListItemDelete from "../TodoListItemDelete/TodoListItemDelete";
+import TodoListItemCompleted from "../TodoListItemCompleted/TodoListItemCompleted";
+
+import "./TodoListItem.css";
 
 const TodoListItem = ({ todo, idx, isEditing, beginEdit, endEdit }) => {
   return (

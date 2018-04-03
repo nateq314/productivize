@@ -1,5 +1,7 @@
 import React from "react";
 
+import "./TodoFilter.css";
+
 export const FILTER_ALL = 0;
 export const FILTER_UNCOMPLETED = 1;
 export const FILTER_COMPLETED = 2;

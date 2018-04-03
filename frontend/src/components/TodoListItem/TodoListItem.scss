@@ -1,0 +1,37 @@
+.TodoListItem {
+  height: 35px;
+  border-bottom: 1px solid #333;
+  padding: 10px 30px 10px 30px;
+  display: flex;
+  align-items: center;
+
+  &:first-of-type {
+    border-top: 1px solid #333;
+  }
+
+  &.important {
+    .todo-content {
+      color: #ff5f00;
+    }
+  }
+
+  &.completed {
+    .todo-content {
+      text-decoration: line-through;
+      color: #707070;
+    }
+  }
+
+  .todo-option-icons {
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+
+    svg {
+      height: 25px;
+      cursor: pointer;
+    }
+  }
+}

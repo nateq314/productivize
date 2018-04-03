@@ -1,6 +1,6 @@
 import React from "react";
-import Login from "./components/Login";
-import AppHeader from "./components/AppHeader";
+import Login from "./components/Login/Login";
+import AppHeader from "./components/AppHeader/AppHeader";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Home from "./routes/Home/Home";
 import Profile from "./routes/Profile/Profile";

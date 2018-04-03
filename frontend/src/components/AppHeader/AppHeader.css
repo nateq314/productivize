@@ -1,0 +1,22 @@
+#AppHeader {
+  padding: 15px 30px 10px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #363454; }
+  #AppHeader h1 {
+    margin: 0px;
+    font-size: 1.2em; }
+  #AppHeader #menuItems .menuItem {
+    float: left;
+    margin-left: 30px; }
+  #AppHeader #menuItems a.menuItem {
+    cursor: pointer;
+    opacity: 0.6;
+    transition: 0.5s opacity; }
+    #AppHeader #menuItems a.menuItem:hover {
+      opacity: 1; }
+  #AppHeader #menuItems #user_name {
+    color: #cadbff;
+    margin-right: 30px;
+    opacity: 1; }

@@ -1,0 +1,9 @@
+svg.todo-delete {
+  &:hover {
+    opacity: 0.75;
+  }
+
+  fill: #f00;
+  opacity: 0.15;
+  transition: 0.5s opacity;
+}

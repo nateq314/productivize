@@ -1,0 +1,47 @@
+@import "../../colors.scss";
+
+#Login {
+  display: flex;
+  margin-top: 35vh;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 40px 0px rgba(255, 255, 255, 0.25);
+  padding: 70px;
+
+  .form-group {
+    input {
+      font-size: 1.5em;
+      border: none;
+      padding: 10px;
+      padding-left: 15px;
+      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      margin-bottom: 30px;
+
+      &::-webkit-input-placeholder {
+        /* Chrome/Opera/Safari */
+        color: $placeholder-color;
+      }
+      &::-moz-placeholder {
+        /* Firefox 19+ */
+        color: $placeholder-color;
+      }
+      &:-ms-input-placeholder {
+        /* IE 10+ */
+        color: $placeholder-color;
+      }
+      &:-moz-placeholder {
+        /* Firefox 18- */
+        color: $placeholder-color;
+      }
+    }
+  }
+
+  button {
+    font-size: 1.5em;
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+  }
+}

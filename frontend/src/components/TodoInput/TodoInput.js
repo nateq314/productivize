@@ -1,6 +1,8 @@
 import React from "react";
 import { Mutation } from "react-apollo";
-import { CREATE_TODO_QUERY } from "../queries";
+import { CREATE_TODO_QUERY } from "../../queries";
+
+import "./TodoInput.css";
 
 const TodoInput = ({ user }) => {
   let input;

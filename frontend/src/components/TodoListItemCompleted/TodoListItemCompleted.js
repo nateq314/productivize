@@ -1,6 +1,8 @@
 import React from "react";
 import { Mutation } from "react-apollo";
-import { UPDATE_TODO_QUERY } from "../queries";
+import { UPDATE_TODO_QUERY } from "../../queries";
+
+import "./TodoListItemCompleted.css";
 
 export default ({ todo }) => (
   <Mutation mutation={UPDATE_TODO_QUERY}>

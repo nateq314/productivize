@@ -1,7 +1,7 @@
 import React from "react";
 import { Query } from "react-apollo";
 import { FETCH_TODOS_QUERY, UPDATE_TODOS_SUBSCRIPTION } from "../../queries";
-import TodoList from "../../components/TodoList";
+import TodoList from "../../components/TodoList/TodoList";
 
 export default ({ user }) => (
   <div id="Home">

@@ -1,9 +1,10 @@
 import React from "react";
-import TodoListItem from "./TodoListItem";
+import TodoListItem from "../TodoListItem/TodoListItem";
 import { List } from "immutable";
-import TodoInput from "../components/TodoInput";
-import TodoFilter from "../components/TodoFilter";
-import { FILTER_ALL, FILTER_UNCOMPLETED, FILTER_COMPLETED } from "./TodoFilter";
+import TodoInput from "../TodoInput/TodoInput";
+import TodoFilter, { FILTER_ALL, FILTER_UNCOMPLETED, FILTER_COMPLETED } from "../TodoFilter/TodoFilter";
+
+import "./TodoList.css";
 
 class TodoList extends React.Component {
   constructor(props) {
