@@ -18,9 +18,8 @@ router.post("/login", (req, res, next) => {
       if (err) {
         res.send(err);
       }
-      delete user.hashed_pw;
       const token = jwt.sign(Object.assign({}, user), authconfig.secret);
-      return res.json({ user, token });
+      return res.json({ id: user.id, token });
     });
   })(req, res);
 });

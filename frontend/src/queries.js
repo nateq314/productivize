@@ -78,6 +78,19 @@ export const UPDATE_TODOS_SUBSCRIPTION = gql`
   }
 `;
 
+export const FETCH_USER_QUERY = gql`
+  query fetchUser($id: Int!) {
+    user(id: $id) {
+      id
+      first_name
+      last_name
+      email
+      created_at
+      updated_at
+    }
+  }
+`;
+
 export const UPDATE_USER_QUERY = gql`
   mutation updateUser($id: Int!, $first_name: String, $last_name: String, $email: String) {
     updateUser(id: $id, first_name: $first_name, last_name: $last_name, email: $email) {
@@ -97,6 +110,7 @@ export const UPDATE_USER_SUBSCRIPTION = gql`
       first_name
       last_name
       email
+      created_at
       updated_at
     }
   }

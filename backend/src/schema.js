@@ -97,9 +97,10 @@ const resolvers = {
       const todosUpdate = { todoUpdated };
       pubsub.publish("todosUpdate", { user_id, todosUpdate });
     },
-    updateUser: (root, { id, ...updates }) => {
+    updateUser: async (root, { id, ...updates }) => {
       updates.updated_at = new Date();
-      return User.query().patchAndFetchById(id, updates);
+      const userUpdate = await User.query().patchAndFetchById(id, updates);
+      pubsub.publish("userUpdate", { id, userUpdate });
     }
   },
   Date: new GraphQLScalarType({
@@ -129,7 +130,9 @@ const resolvers = {
     userUpdate: {
       subscribe: withFilter(
         () => pubsub.asyncIterator("userUpdate"),
-        (payload, variables) => payload.id === variables.id
+        (payload, variables) => {
+          return payload.id === variables.id;
+        }
       )
     }
   }

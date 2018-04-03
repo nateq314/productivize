@@ -4,9 +4,9 @@ import AppHeader from "./components/AppHeader/AppHeader";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Home from "./routes/Home/Home";
 import Profile from "./routes/Profile/Profile";
-import { ApolloProvider, Subscription } from "react-apollo";
+import { ApolloProvider, Query } from "react-apollo";
 import { getApolloClient } from "./apollo";
-import { UPDATE_USER_SUBSCRIPTION } from "./queries";
+import { FETCH_USER_QUERY, UPDATE_USER_SUBSCRIPTION } from "./queries";
 
 import "./App.css";
 
@@ -15,25 +15,39 @@ export default class App extends React.Component {
     super(props);
     this.client = getApolloClient(localStorage.getItem("apollo_fullstack_todolist_token"));
     this.state = {
-      user: JSON.parse(localStorage.getItem("apollo_fullstack_todolist_user"))
+      user_id: JSON.parse(localStorage.getItem("apollo_fullstack_todolist_user_id"))
     };
   }
 
   render() {
-    if (!this.state.user) return <Login onSubmit={this.loginOnSubmit.bind(this)} />;
+    if (!this.state.user_id) return <Login onSubmit={this.loginOnSubmit.bind(this)} />;
     return (
       <ApolloProvider client={this.client}>
-        <Subscription subscription={UPDATE_USER_SUBSCRIPTION} variables={{ id: this.state.user.id }}>
-          {({ data, loading, error }) => (
-            <Router>
-              <div id="App">
-                <Route path="/" render={() => <AppHeader logout={this.logout.bind(this)} user={this.state.user} />} />
-                <Route exact={true} path="/" render={() => <Home user={this.state.user} />} />
-                <Route path="/profile" render={() => <Profile user={this.state.user} />} />
-              </div>
-            </Router>
-          )}
-        </Subscription>
+        <Query query={FETCH_USER_QUERY} variables={{ id: this.state.user_id }}>
+          {({ data: { user }, loading, error, subscribeToMore }) => {
+            if (loading) return null;
+            subscribeToMore({
+              document: UPDATE_USER_SUBSCRIPTION,
+              variables: { id: user.id },
+              updateQuery(prev, { subscriptionData }) {
+                if (!subscriptionData.data) return prev;
+                return {
+                  ...prev,
+                  user: subscriptionData.data.userUpdate
+                };
+              }
+            });
+            return (
+              <Router>
+                <div id="App">
+                  <Route path="/" render={() => <AppHeader logout={this.logout.bind(this)} user={user} />} />
+                  <Route exact={true} path="/" render={() => <Home user={user} />} />
+                  <Route path="/profile" render={() => <Profile user={user} />} />
+                </div>
+              </Router>
+            );
+          }}
+        </Query>
       </ApolloProvider>
     );
   }
@@ -47,15 +61,15 @@ export default class App extends React.Component {
       body: JSON.stringify({ email, password }),
       method: "POST"
     });
-    const { token, user } = await loginResponse.json();
+    const { token, id } = await loginResponse.json();
     localStorage.setItem("apollo_fullstack_todolist_token", token);
-    localStorage.setItem("apollo_fullstack_todolist_user", JSON.stringify(user));
+    localStorage.setItem("apollo_fullstack_todolist_user_id", JSON.stringify(id));
     this.client = getApolloClient(token);
-    this.setState({ user });
+    this.setState({ user_id: id });
   }
 
   logout() {
     localStorage.clear();
-    this.setState({ user: null });
+    this.setState({ user_id: null });
   }
 }
