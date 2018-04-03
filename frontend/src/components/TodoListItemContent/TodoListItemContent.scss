@@ -1,20 +1,41 @@
-form.edit-todo {
-  display: inline-block;
-  vertical-align: top;
-
-  input {
-    font-size: 1em;
+.TodoListItemContent {
+  &.completed {
+    input {
+      text-decoration: line-through;
+    }
   }
-}
 
-.todo-main {
-  .todo-content {
-    font-size: 1.1em;
+  &.important {
+    form.edit-todo input {
+      color: #ff5f00;
+    }
+  }
+
+  form.edit-todo {
+    display: inline-block;
+    vertical-align: top;
+
+    input {
+      font-size: 1em;
+      width: 600px;
+      border: none;
+      padding: 4px 6px;
+      background-color: #1b1b1b;
+      color: inherit;
+      caret-color: transparent;
+      border-radius: 4px;
+    }
+
+    &.isEditing input {
+      background-color: #fff;
+      color: #000;
+      caret-color: #000;
+    }
   }
 
   .todo-completedOn {
-    color: #404040;
+    color: #494949;
     font-size: 0.8em;
-    margin-top: 5px;
+    margin: 2px 0px 0px 5px;
   }
 }

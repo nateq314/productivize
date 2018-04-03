@@ -4,8 +4,7 @@ import { UPDATE_TODO_QUERY } from "../../queries";
 
 import "./TodoListItemContent.css";
 
-function editOnFocus(e) {
-  const input = e.currentTarget;
+function focusCaret(input) {
   input.selectionStart = input.selectionEnd = input.value.length;
 }
 
@@ -18,43 +17,49 @@ function prettyDate(date) {
 }
 
 export default ({ beginEdit, endEdit, isEditing, todo }) => {
-  let inputRef;
   const completedOn = todo.completedOn ? new Date(todo.completedOn) : null;
+  let inputRef;
 
-  return isEditing === todo.id ? (
-    <Mutation mutation={UPDATE_TODO_QUERY}>
-      {(updateTodo, { data }) => (
-        <form
-          className="edit-todo"
-          onSubmit={e => {
-            e.preventDefault();
-            updateTodo({ variables: { id: todo.id, content: inputRef.value } });
-            endEdit();
-          }}
-        >
-          <input
-            autoFocus
-            defaultValue={todo.content}
-            ref={node => {
-              inputRef = node;
+  return (
+    <div className={`TodoListItemContent ${todo.completedOn ? "completed" : ""} ${todo.important ? "important" : ""}`}>
+      <Mutation mutation={UPDATE_TODO_QUERY}>
+        {(updateTodo, { data }) => (
+          <form
+            className={`edit-todo ${isEditing ? "isEditing" : ""}`}
+            onSubmit={e => {
+              e.preventDefault();
+              updateTodo({ variables: { id: todo.id, content: inputRef.value } });
+              endEdit();
             }}
-            onBlur={endEdit}
-            onFocus={editOnFocus}
-            onKeyDown={e => {
-              if (e.keyCode === 27) {
+          >
+            <input
+              autoFocus
+              readOnly={isEditing ? false : true}
+              defaultValue={todo.content}
+              ref={node => {
+                inputRef = node;
+              }}
+              onBlur={() => {
+                inputRef.value = todo.content;
                 endEdit();
-              }
-            }}
-          />
-        </form>
-      )}
-    </Mutation>
-  ) : (
-    <span className="todo-main">
-      <div className="todo-content" onDoubleClick={todo.completedOn ? null : beginEdit}>
-        {todo.content}
-      </div>
+              }}
+              onKeyDown={e => {
+                if (e.keyCode === 27) {
+                  inputRef.value = todo.content;
+                  endEdit();
+                }
+              }}
+              onDoubleClick={() => {
+                if (!todo.completedOn && !isEditing) {
+                  beginEdit();
+                  focusCaret(inputRef);
+                }
+              }}
+            />
+          </form>
+        )}
+      </Mutation>
       {todo.completedOn && <div className="todo-completedOn">Completed on {prettyDate(completedOn)}</div>}
-    </span>
+    </div>
   );
 };

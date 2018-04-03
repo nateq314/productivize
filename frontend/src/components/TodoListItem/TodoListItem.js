@@ -8,9 +8,9 @@ import "./TodoListItem.css";
 
 const TodoListItem = ({ todo, idx, isEditing, beginEdit, endEdit }) => {
   return (
-    <li className={`TodoListItem ${todo.completedOn ? "completed" : ""} ${todo.important ? "important" : ""}`}>
+    <li className={`TodoListItem`}>
       <TodoListItemCompleted todo={todo} />
-      <TodoListItemContent beginEdit={beginEdit} endEdit={endEdit} isEditing={isEditing} todo={todo} />
+      <TodoListItemContent beginEdit={beginEdit} endEdit={endEdit} isEditing={isEditing === todo.id} todo={todo} />
       <div className="todo-option-icons">
         <TodoListItemImportance todo={todo} />
         <TodoListItemDelete todo={todo} />
