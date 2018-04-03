@@ -1,55 +1,54 @@
 // Update with your config settings.
 
 module.exports = {
-
   development: {
-    client: 'postgresql',
+    client: "postgresql",
     connection: {
-			host: 'db',
-			database: 'main',
-			user: 'api',
-			password: 'abcdefgh'
+      host: "db",
+      database: "main",
+      user: "api",
+      password: "abcdefgh"
     },
-		migrations: {
-			tableName: 'migrations'
-		},
-		seeds: {
-			directory: './seeds/dev'
-		},
-		debug: true
+    migrations: {
+      tableName: "migrations"
+    },
+    seeds: {
+      directory: "./seeds/dev"
+    },
+    debug: true
   },
 
   staging: {
-    client: 'postgresql',
+    client: "postgresql",
     connection: {
-			host: 'db',
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
+      host: "db",
+      database: "my_db",
+      user: "username",
+      password: "password"
     },
     pool: {
       min: 2,
       max: 10
     },
     migrations: {
-      tableName: 'knex_migrations'
+      tableName: "knex_migrations"
     }
   },
 
   production: {
-    client: 'postgresql',
+    client: "postgresql",
     connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
+      host: "db",
+      database: "main",
+      user: "api",
+      password: "abcdefgh"
     },
     pool: {
       min: 2,
       max: 10
     },
     migrations: {
-      tableName: 'knex_migrations'
+      tableName: "migrations"
     }
   }
-
 };

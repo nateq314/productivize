@@ -2,6 +2,8 @@ import express from "express";
 import authconfig from "./authconfig";
 import jwt from "jsonwebtoken";
 import passport from "passport";
+import bcrypt from "bcryptjs";
+import User from "../models/user";
 
 const router = express.Router();
 
@@ -24,23 +26,24 @@ router.post("/login", (req, res, next) => {
   })(req, res);
 });
 
-// router.post("/register", async (req, res) => {
-//   const hashed_pw = bcrypt.hashSync(req.body.password, 8);
-//   const { first_name, last_name } = req.body;
-//   try {
-//     const user = await User.query().insert({
-//       first_name,
-//       last_name,
-//       hashed_pw
-//     });
-//     const token = jwt.sign({ id: user.id }, authconfig.secret, {
-//       expiresIn: 86400 // expires in 24 hours
-//     });
-//     res.status(200).send({ auth: true, token });
-//   } catch (error) {
-//     return res.status(500).send({ error: error.message });
-//   }
-// });
+router.post("/register", async (req, res) => {
+  const hashed_pw = bcrypt.hashSync(req.body.password, 8);
+  const { first_name, last_name, email } = req.body;
+  try {
+    const user = await User.query().insert({
+      first_name,
+      last_name,
+      email,
+      hashed_pw
+    });
+    const token = jwt.sign({ id: user.id }, authconfig.secret, {
+      expiresIn: 86400 // expires in 24 hours
+    });
+    res.status(200).send({ auth: true, token });
+  } catch (error) {
+    return res.status(500).send({ error: error.message });
+  }
+});
 
 // router.get("/me", (req, res) => {
 //   const token = req.headers["x-access-token"];

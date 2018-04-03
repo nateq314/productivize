@@ -7,24 +7,25 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./db-dev:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
   api:
     build:
       context: .
-      dockerfile: Dockerfile-api
+      dockerfile: Dockerfile-api.prod
     ports:
       - "3000:3000"
     links:
       - db
-    volumes:
-      - ./backend:/app
     command: yarn run start-dev
   web:
     build:
       context: .
-      dockerfile: Dockerfile-web
+      dockerfile: Dockerfile-web.prod
     ports:
-      - "4000:4000"
-    volumes:
-      - ./frontend:/app
-    command: yarn start
+      - "80:80"
+    environment:
+      - NODE_ENV=production
+    command: node server.js
+
+volumes:
+  pgdata:

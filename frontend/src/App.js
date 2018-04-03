@@ -7,6 +7,7 @@ import Profile from "./routes/Profile/Profile";
 import { ApolloProvider, Query } from "react-apollo";
 import { getApolloClient } from "./apollo";
 import { FETCH_USER_QUERY, UPDATE_USER_SUBSCRIPTION } from "./queries";
+import { host, port } from "./apollo";
 
 import "./App.css";
 
@@ -15,7 +16,7 @@ export default class App extends React.Component {
     super(props);
     this.client = getApolloClient(localStorage.getItem("apollo_fullstack_todolist_token"));
     this.state = {
-      user_id: JSON.parse(localStorage.getItem("apollo_fullstack_todolist_user_id"))
+      user_id: localStorage.getItem("apollo_fullstack_todolist_user_id")
     };
   }
 
@@ -24,8 +25,9 @@ export default class App extends React.Component {
     return (
       <ApolloProvider client={this.client}>
         <Query query={FETCH_USER_QUERY} variables={{ id: this.state.user_id }}>
-          {({ data: { user }, loading, error, subscribeToMore }) => {
+          {({ data, loading, error, subscribeToMore }) => {
             if (loading) return null;
+            const { user } = data;
             subscribeToMore({
               document: UPDATE_USER_SUBSCRIPTION,
               variables: { id: user.id },
@@ -54,7 +56,7 @@ export default class App extends React.Component {
 
   async loginOnSubmit(email, password) {
     console.log("loginOnSubmit()");
-    const loginResponse = await fetch("http://localhost:3000/api/auth/login", {
+    const loginResponse = await fetch(`http://${host}:${port}/api/auth/login`, {
       headers: {
         "Content-Type": "application/json"
       },

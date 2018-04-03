@@ -5,6 +5,10 @@ import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { getMainDefinition } from "apollo-utilities";
 
+const isProd = process.env.NODE_ENV === "production";
+export const host = isProd ? "35.196.51.244" : "localhost";
+export const port = "3000";
+
 export function getApolloClient(token) {
   if (token) {
     const authMiddleware = new ApolloLink((operation, forward) => {
@@ -17,11 +21,11 @@ export function getApolloClient(token) {
     });
 
     const httpLink = new HttpLink({
-      uri: "http://localhost:3000/api/graphql"
+      uri: `http://${host}:${port}/api/graphql`
     });
 
     const wsLink = new WebSocketLink({
-      uri: "ws://localhost:3000/subscriptions",
+      uri: `ws://${host}:3000/subscriptions`,
       options: {
         reconnect: true
       }
