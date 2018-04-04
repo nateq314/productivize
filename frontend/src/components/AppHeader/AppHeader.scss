@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #363454;
+  background-color: #3f3840;
 
   h1 {
     margin: 0px;
@@ -15,17 +15,8 @@
       float: left;
       margin-left: 30px;
     }
-    a.menuItem {
-      cursor: pointer;
-      opacity: 0.6;
-      transition: 0.5s opacity;
-
-      &:hover {
-        opacity: 1;
-      }
-    }
     #user_name {
-      color: #cadbff;
+      color: #ffaf00;
       margin-right: 30px;
       opacity: 1;
     }

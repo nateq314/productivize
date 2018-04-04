@@ -4,6 +4,7 @@ import AppHeader from "./components/AppHeader/AppHeader";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Home from "./routes/Home/Home";
 import Profile from "./routes/Profile/Profile";
+import Register from "./routes/Register/Register";
 import { ApolloProvider, Query } from "react-apollo";
 import { getApolloClient } from "./apollo";
 import { FETCH_USER_QUERY, UPDATE_USER_SUBSCRIPTION } from "./queries";
@@ -21,8 +22,21 @@ export default class App extends React.Component {
   }
 
   render() {
-    if (!this.state.user_id) return <Login onSubmit={this.loginOnSubmit.bind(this)} />;
+    if (!this.state.user_id)
+      return (
+        // NON-AUTHENTICATED ROUTES
+        <Router>
+          <div>
+            <Route exact={true} path="/" render={() => <Login onSubmit={this.loginOnSubmit.bind(this)} />} />
+            <Route
+              path="/register"
+              render={routerProps => <Register onRegister={this.registerOnSubmit.bind(this, routerProps.history)} />}
+            />
+          </div>
+        </Router>
+      );
     return (
+      // AUTHENTICATED ROUTES
       <ApolloProvider client={this.client}>
         <Query query={FETCH_USER_QUERY} variables={{ id: this.state.user_id }}>
           {({ data, loading, error, subscribeToMore }) => {
@@ -69,6 +83,25 @@ export default class App extends React.Component {
       localStorage.setItem("apollo_fullstack_todolist_user_id", JSON.stringify(id));
       this.client = getApolloClient(token);
       this.setState({ user_id: id });
+    }
+  }
+
+  async registerOnSubmit(history, first_name, last_name, email, password) {
+    console.log("registerOnSubmit()");
+    const response = await fetch(`http://${host}:${port}/api/auth/register`, {
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ first_name, last_name, email, password }),
+      method: "POST"
+    });
+    const { id, token } = await response.json();
+    if (token && id) {
+      localStorage.setItem("apollo_fullstack_todolist_token", token);
+      localStorage.setItem("apollo_fullstack_todolist_user_id", JSON.stringify(id));
+      this.client = getApolloClient(token);
+      this.setState({ user_id: id });
+      history.push("/");
     }
   }
 

@@ -18,6 +18,8 @@ services:
       - db
     volumes:
       - ./backend:/app
+    environment:
+      - NODE_ENV=development
     command: yarn run start-dev
   web:
     build:

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import "./Login.css";
 
@@ -33,7 +34,14 @@ export default ({ onSubmit }) => (
           defaultValue=""
         />
       </div>
-      <button type="submit">Log In</button>
+      <button type="submit" className="login">
+        Log In
+      </button>
+      <div className="linkContainer">
+        <Link to="/register" className="register">
+          Register a New Account
+        </Link>
+      </div>
     </form>
   </div>
 );

@@ -1,6 +1,7 @@
 @import "../../colors.scss";
 
-#Login {
+#Login,
+#Register {
   display: flex;
   margin-top: 35vh;
   align-items: center;
@@ -15,7 +16,7 @@
       padding: 10px;
       padding-left: 15px;
       border-radius: 8px;
-      background-color: rgba(255, 255, 255, 0.2);
+      background-color: rgba(255, 255, 255, 0.1);
       color: #fff;
       margin-bottom: 30px;
 
@@ -43,5 +44,11 @@
     width: 100%;
     padding: 8px;
     border-radius: 8px;
+    margin-right: 20px;
+  }
+
+  .linkContainer {
+    text-align: center;
+    padding-top: 40px;
   }
 }

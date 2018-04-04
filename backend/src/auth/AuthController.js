@@ -20,7 +20,7 @@ router.post("/login", (req, res, next) => {
       if (err) {
         res.send(err);
       }
-      const token = jwt.sign(Object.assign({}, user), authconfig.secret);
+      const token = jwt.sign(Object.assign({}, { id: user.id }), authconfig.secret);
       return res.json({ id: user.id, token });
     });
   })(req, res);
@@ -39,7 +39,7 @@ router.post("/register", async (req, res) => {
     const token = jwt.sign({ id: user.id }, authconfig.secret, {
       expiresIn: 86400 // expires in 24 hours
     });
-    res.status(200).send({ auth: true, token });
+    res.status(200).send({ id: user.id, token });
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
