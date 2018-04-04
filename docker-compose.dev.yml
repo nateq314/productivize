@@ -24,7 +24,7 @@ services:
       context: .
       dockerfile: Dockerfile-web.dev
     ports:
-      - "5000:5000"
+      - "4000:4000"
     volumes:
       - ./frontend:/app
     command: yarn start

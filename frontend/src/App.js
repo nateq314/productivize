@@ -64,10 +64,12 @@ export default class App extends React.Component {
       method: "POST"
     });
     const { token, id } = await loginResponse.json();
-    localStorage.setItem("apollo_fullstack_todolist_token", token);
-    localStorage.setItem("apollo_fullstack_todolist_user_id", JSON.stringify(id));
-    this.client = getApolloClient(token);
-    this.setState({ user_id: id });
+    if (token && id) {
+      localStorage.setItem("apollo_fullstack_todolist_token", token);
+      localStorage.setItem("apollo_fullstack_todolist_user_id", JSON.stringify(id));
+      this.client = getApolloClient(token);
+      this.setState({ user_id: id });
+    }
   }
 
   logout() {
