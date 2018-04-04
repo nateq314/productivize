@@ -6,7 +6,7 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 import { getMainDefinition } from "apollo-utilities";
 
 const isProd = process.env.NODE_ENV === "production";
-export const host = isProd ? "35.196.51.244" : "localhost";
+export const host = isProd ? "35.231.237.155" : "localhost";
 export const port = "3000";
 
 export function getApolloClient(token) {
