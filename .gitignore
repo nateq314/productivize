@@ -4,4 +4,5 @@ lib
 node_modules
 db-dev
 .DS_Store
-.css
+*.css
+*.log

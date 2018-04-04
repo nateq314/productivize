@@ -1,6 +1,0 @@
-svg.todo-delete {
-  fill: #f00;
-  opacity: 0.15;
-  transition: 0.5s opacity; }
-  svg.todo-delete:hover {
-    opacity: 0.75; }

@@ -1,7 +1,7 @@
 import React from "react";
 import Login from "./components/Login/Login";
 import AppHeader from "./components/AppHeader/AppHeader";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import Home from "./routes/Home/Home";
 import Profile from "./routes/Profile/Profile";
 import Register from "./routes/Register/Register";
@@ -28,10 +28,8 @@ export default class App extends React.Component {
         <Router>
           <div>
             <Route exact={true} path="/" render={() => <Login onSubmit={this.loginOnSubmit.bind(this)} />} />
-            <Route
-              path="/register"
-              render={routerProps => <Register onRegister={this.registerOnSubmit.bind(this, routerProps.history)} />}
-            />
+            <Route path="/register" render={() => <Register onRegister={this.registerOnSubmit.bind(this)} />} />
+            <Route render={() => <Redirect to="/" />} />
           </div>
         </Router>
       );
@@ -59,6 +57,7 @@ export default class App extends React.Component {
                   <Route path="/" render={() => <AppHeader logout={this.logout.bind(this)} user={user} />} />
                   <Route exact={true} path="/" render={() => <Home user={user} />} />
                   <Route path="/profile" render={() => <Profile user={user} />} />
+                  <Route render={() => <Redirect to="/" />} />
                 </div>
               </Router>
             );
@@ -86,7 +85,7 @@ export default class App extends React.Component {
     }
   }
 
-  async registerOnSubmit(history, first_name, last_name, email, password) {
+  async registerOnSubmit(first_name, last_name, email, password) {
     console.log("registerOnSubmit()");
     const response = await fetch(`http://${host}:${port}/api/auth/register`, {
       headers: {
@@ -101,7 +100,6 @@ export default class App extends React.Component {
       localStorage.setItem("apollo_fullstack_todolist_user_id", JSON.stringify(id));
       this.client = getApolloClient(token);
       this.setState({ user_id: id });
-      history.push("/");
     }
   }
 
