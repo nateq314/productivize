@@ -11,7 +11,7 @@ services:
   api:
     build:
       context: .
-      dockerfile: Dockerfile-api.dev
+      dockerfile: Dockerfile-api
     ports:
       - "3000:3000"
     links:
@@ -24,7 +24,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: Dockerfile-web.dev
+      dockerfile: Dockerfile-web
     ports:
       - "4000:4000"
     volumes:

@@ -13,7 +13,7 @@ class TodoList extends React.Component {
     this.state = {
       isEditing: null,
       filter: FILTER_UNCOMPLETED,
-      contextMenu: null, // an integer
+      contextMenu: null, // an integer - the todo id
       contextMenuLocation: null
     };
   }
@@ -53,14 +53,20 @@ class TodoList extends React.Component {
                   isEditing={this.state.isEditing}
                   beginEdit={this.setEditingStatus.bind(this, todo.id)}
                   endEdit={this.clearEditingStatus.bind(this)}
-                  toggleContextMenu={this.toggleContextMenu.bind(this)}
+                  setContextMenu={this.props.setContextMenu}
                 />
               ))
           ) : (
             <h3 id="no-todos">No to-dos to display. Get started by entering one in the above input.</h3>
           )}
         </ul>
-        {this.state.contextMenu && <ContextMenu location={this.state.contextMenuLocation} />}
+        {this.props.contextMenu && (
+          <ContextMenu
+            todoID={this.props.contextMenu.todoID}
+            x={this.props.contextMenu.x}
+            y={this.props.contextMenu.y}
+          />
+        )}
       </div>
     );
   }

@@ -3,7 +3,7 @@ import { Query } from "react-apollo";
 import { FETCH_TODOS_QUERY, UPDATE_TODOS_SUBSCRIPTION } from "../../queries";
 import TodoList from "../../components/TodoList/TodoList";
 
-export default ({ user }) => (
+export default ({ user, contextMenu, setContextMenu }) => (
   <div id="Home">
     <Query query={FETCH_TODOS_QUERY} variables={{ user_id: user.id }}>
       {({ data, error, loading, subscribeToMore }) => {
@@ -11,6 +11,8 @@ export default ({ user }) => (
         if (error) return <div>Error :(</div>;
         return (
           <TodoList
+            contextMenu={contextMenu}
+            setContextMenu={setContextMenu}
             todos={data.todos}
             user={user}
             subscribeToTodoUpdates={() => {

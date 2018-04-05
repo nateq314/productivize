@@ -1,7 +1,7 @@
 import React from "react";
 import Login from "./components/Login/Login";
 import AppHeader from "./components/AppHeader/AppHeader";
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 import Home from "./routes/Home/Home";
 import Profile from "./routes/Profile/Profile";
 import Register from "./routes/Register/Register";
@@ -17,7 +17,8 @@ export default class App extends React.Component {
     super(props);
     this.client = getApolloClient(localStorage.getItem("apollo_fullstack_todolist_token"));
     this.state = {
-      user_id: localStorage.getItem("apollo_fullstack_todolist_user_id")
+      user_id: localStorage.getItem("apollo_fullstack_todolist_user_id"),
+      contextMenu: null // an integer - the todo id
     };
   }
 
@@ -53,11 +54,23 @@ export default class App extends React.Component {
             });
             return (
               <Router>
-                <div id="App">
-                  <Route path="/" render={() => <AppHeader logout={this.logout.bind(this)} user={user} />} />
-                  <Route exact={true} path="/" render={() => <Home user={user} />} />
-                  <Route path="/profile" render={() => <Profile user={user} />} />
-                  <Route render={() => <Redirect to="/" />} />
+                <div id="App" onClick={this.appOnClick.bind(this)} onContextMenu={this.appOnClick.bind(this)}>
+                  <AppHeader logout={this.logout.bind(this)} user={user} />
+                  <Switch>
+                    <Route
+                      exact={true}
+                      path="/"
+                      render={() => (
+                        <Home
+                          user={user}
+                          contextMenu={this.state.contextMenu}
+                          setContextMenu={this.setContextMenu.bind(this)}
+                        />
+                      )}
+                    />
+                    <Route path="/profile" render={() => <Profile user={user} />} />
+                    <Route render={() => <Redirect to="/" />} />
+                  </Switch>
                 </div>
               </Router>
             );
@@ -106,5 +119,24 @@ export default class App extends React.Component {
   logout() {
     localStorage.clear();
     this.setState({ user_id: null });
+  }
+
+  appOnClick(e) {
+    // console.log("appOnClick()");
+    this.setState({
+      contextMenu: null
+    });
+  }
+
+  setContextMenu(e, todoID) {
+    e.preventDefault();
+    const screenWidth = document.getElementById("App").clientWidth;
+    this.setState({
+      contextMenu: {
+        todoID: todoID,
+        x: e.clientX < screenWidth - 145 ? e.clientX : e.clientX - 145,
+        y: e.clientY - 5
+      }
+    });
   }
 }
