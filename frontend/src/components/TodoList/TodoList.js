@@ -3,6 +3,7 @@ import TodoListItem from "../TodoListItem/TodoListItem";
 import { List } from "immutable";
 import TodoInput from "../TodoInput/TodoInput";
 import TodoFilter, { FILTER_ALL, FILTER_UNCOMPLETED, FILTER_COMPLETED } from "../TodoFilter/TodoFilter";
+import ContextMenu from "../ContextMenu/ContextMenu";
 
 import "./TodoList.css";
 
@@ -11,7 +12,9 @@ class TodoList extends React.Component {
     super(props);
     this.state = {
       isEditing: null,
-      filter: FILTER_UNCOMPLETED
+      filter: FILTER_UNCOMPLETED,
+      contextMenu: null, // an integer
+      contextMenuLocation: null
     };
   }
 
@@ -50,12 +53,14 @@ class TodoList extends React.Component {
                   isEditing={this.state.isEditing}
                   beginEdit={this.setEditingStatus.bind(this, todo.id)}
                   endEdit={this.clearEditingStatus.bind(this)}
+                  toggleContextMenu={this.toggleContextMenu.bind(this)}
                 />
               ))
           ) : (
             <h3 id="no-todos">No to-dos to display. Get started by entering one in the above input.</h3>
           )}
         </ul>
+        {this.state.contextMenu && <ContextMenu location={this.state.contextMenuLocation} />}
       </div>
     );
   }
@@ -74,6 +79,17 @@ class TodoList extends React.Component {
 
   filterOnChange(filter) {
     this.setState({ filter });
+  }
+
+  toggleContextMenu(e, todoID) {
+    e.preventDefault();
+    this.setState({
+      contextMenu: this.state.contextMenu === todoID ? null : todoID,
+      contextMenuLocation: {
+        x: e.clientX,
+        y: e.clientY
+      }
+    });
   }
 }
 

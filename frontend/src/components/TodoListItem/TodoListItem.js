@@ -6,17 +6,18 @@ import TodoListItemCompleted from "../TodoListItemCompleted/TodoListItemComplete
 
 import "./TodoListItem.css";
 
-const TodoListItem = ({ todo, idx, isEditing, beginEdit, endEdit }) => {
-  return (
-    <li className={`TodoListItem`}>
-      <TodoListItemCompleted todo={todo} />
-      <TodoListItemContent beginEdit={beginEdit} endEdit={endEdit} isEditing={isEditing === todo.id} todo={todo} />
-      <div className="todo-option-icons">
-        <TodoListItemImportance todo={todo} />
-        <TodoListItemDelete todo={todo} />
-      </div>
-    </li>
-  );
-};
-
-export default TodoListItem;
+export default ({ todo, isEditing, beginEdit, endEdit, toggleContextMenu }) => (
+  <li
+    className={`TodoListItem`}
+    onContextMenu={e => {
+      toggleContextMenu(e, todo.id);
+    }}
+  >
+    <TodoListItemCompleted todo={todo} />
+    <TodoListItemContent beginEdit={beginEdit} endEdit={endEdit} isEditing={isEditing === todo.id} todo={todo} />
+    <div className="todo-option-icons">
+      <TodoListItemImportance todo={todo} />
+      <TodoListItemDelete todo={todo} />
+    </div>
+  </li>
+);
