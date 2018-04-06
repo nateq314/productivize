@@ -1,3 +1,5 @@
+// @flow
+
 import React from "react";
 import Login from "./components/Login/Login";
 import AppHeader from "./components/AppHeader/AppHeader";
@@ -12,8 +14,28 @@ import { host, port } from "./apollo";
 
 import "./App.css";
 
-export default class App extends React.Component {
-  constructor(props) {
+export type User = {
+  id: number,
+  first_name: string,
+  last_name: string,
+  email: string
+};
+
+export type ContextMenuObjType = ?{
+  todoID: number,
+  x: number,
+  y: number
+};
+
+type AppState = {
+  user_id: ?string,
+  contextMenu: ?ContextMenuObjType
+};
+
+export default class App extends React.Component<{}, AppState> {
+  client: string;
+
+  constructor(props: any) {
     super(props);
     this.client = getApolloClient(localStorage.getItem("apollo_fullstack_todolist_token"));
     this.state = {
@@ -80,7 +102,7 @@ export default class App extends React.Component {
     );
   }
 
-  async loginOnSubmit(email, password) {
+  async loginOnSubmit(email: string, password: string) {
     console.log("loginOnSubmit()");
     const loginResponse = await fetch(`http://${host}:${port}/api/auth/login`, {
       headers: {
@@ -98,7 +120,7 @@ export default class App extends React.Component {
     }
   }
 
-  async registerOnSubmit(first_name, last_name, email, password) {
+  async registerOnSubmit(first_name: string, last_name: string, email: string, password: string) {
     console.log("registerOnSubmit()");
     const response = await fetch(`http://${host}:${port}/api/auth/register`, {
       headers: {
@@ -121,16 +143,16 @@ export default class App extends React.Component {
     this.setState({ user_id: null });
   }
 
-  appOnClick(e) {
+  appOnClick(e: SyntheticMouseEvent<HTMLDivElement>) {
     // console.log("appOnClick()");
     this.setState({
       contextMenu: null
     });
   }
 
-  setContextMenu(e, todoID) {
+  setContextMenu(e: SyntheticMouseEvent<HTMLLIElement>, todoID: number) {
     e.preventDefault();
-    const screenWidth = document.getElementById("App").clientWidth;
+    const screenWidth: number = (document.getElementById("App"): any).clientWidth;
     this.setState({
       contextMenu: {
         todoID: todoID,

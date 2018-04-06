@@ -5,6 +5,7 @@ import { List } from "immutable";
 import TodoInput from "../TodoInput/TodoInput";
 import TodoFilter, { FILTER_ALL, FILTER_UNCOMPLETED, FILTER_COMPLETED } from "../TodoFilter/TodoFilter";
 import ContextMenu from "../ContextMenu/ContextMenu";
+import { type User, type ContextMenuObjType } from "../../App";
 
 import "./TodoList.css";
 
@@ -18,17 +19,16 @@ export type Todo = {
 };
 
 type TodoListProps = {
-  contextMenu: any,
-  setContextMenu: (e: SyntheticEvent<HTMLLIElement>, todoID: number) => void,
-  todos: any,
-  user: any,
+  contextMenu: ContextMenuObjType,
+  setContextMenu: (e: SyntheticMouseEvent<HTMLLIElement>, todoID: number) => void,
+  todos: Todo[],
+  user: User,
   subscribeToTodoUpdates: () => void
 };
 
 type TodoListState = {
   isEditing: ?number,
-  filter: number,
-  contextMenu: any
+  filter: number
 };
 
 class TodoList extends React.Component<TodoListProps, TodoListState> {

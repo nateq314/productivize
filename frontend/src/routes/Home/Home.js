@@ -3,18 +3,12 @@ import React from "react";
 import { Query } from "react-apollo";
 import { FETCH_TODOS_QUERY, UPDATE_TODOS_SUBSCRIPTION } from "../../queries";
 import TodoList, { type Todo } from "../../components/TodoList/TodoList";
-
-type User = {
-  id: number,
-  first_name: string,
-  last_name: string,
-  email: string
-};
+import { type User, type ContextMenuObjType } from "../../App";
 
 type HomeProps = {
   user: User,
-  contextMenu: number,
-  setContextMenu: (e: SyntheticEvent<HTMLLIElement>, todoID: number) => void
+  contextMenu: ContextMenuObjType, // TODO: change this
+  setContextMenu: (e: SyntheticMouseEvent<HTMLLIElement>, todoID: number) => void
 };
 
 type QueryChildrenProps = {
