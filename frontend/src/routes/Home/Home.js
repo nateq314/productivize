@@ -1,4 +1,5 @@
 // @flow
+
 import React from "react";
 import { Query } from "react-apollo";
 import { FETCH_TODOS_QUERY, UPDATE_TODOS_SUBSCRIPTION } from "../../queries";
@@ -7,8 +8,8 @@ import { type User, type ContextMenuObjType } from "../../App";
 
 type HomeProps = {
   user: User,
-  contextMenu: ContextMenuObjType, // TODO: change this
-  setContextMenu: (e: SyntheticMouseEvent<HTMLLIElement>, todoID: number) => void
+  contextMenu: ContextMenuObjType,
+  setContextMenu: (SyntheticMouseEvent<HTMLLIElement>, number) => void
 };
 
 type QueryChildrenProps = {

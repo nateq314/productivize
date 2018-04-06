@@ -1,17 +1,25 @@
+// @flow
+
 import React from "react";
 import { Link } from "react-router-dom";
 
 import "../../components/Login/Login.css";
 import "./Register.css";
 
+type RegisterProps = {
+  onRegister: (string, string, string, string) => Promise<void>
+};
+
 let first_name, last_name, email, password;
 
-export default ({ onRegister }) => (
+export default ({ onRegister }: RegisterProps) => (
   <div id="Register">
     <form
       onSubmit={e => {
         e.preventDefault();
-        onRegister(first_name.value, last_name.value, email.value, password.value);
+        if (first_name && last_name && email && password) {
+          onRegister(first_name.value, last_name.value, email.value, password.value);
+        }
       }}
     >
       <div className="form-group">

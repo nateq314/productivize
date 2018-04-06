@@ -33,14 +33,14 @@ type AppState = {
 };
 
 export default class App extends React.Component<{}, AppState> {
-  client: string;
+  client: any;
 
   constructor(props: any) {
     super(props);
     this.client = getApolloClient(localStorage.getItem("apollo_fullstack_todolist_token"));
     this.state = {
       user_id: localStorage.getItem("apollo_fullstack_todolist_user_id"),
-      contextMenu: null // an integer - the todo id
+      contextMenu: null
     };
   }
 

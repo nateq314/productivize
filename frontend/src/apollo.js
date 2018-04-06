@@ -1,3 +1,5 @@
+// @flow
+
 import { ApolloLink, concat, split } from "apollo-link";
 import { HttpLink } from "apollo-link-http";
 import { WebSocketLink } from "apollo-link-ws";
@@ -9,12 +11,12 @@ const isProd = process.env.NODE_ENV === "production";
 export const host = isProd ? "35.227.120.175" : "localhost";
 export const port = "3000";
 
-export function getApolloClient(token) {
+export function getApolloClient(token: ?string) {
   if (token) {
     const authMiddleware = new ApolloLink((operation, forward) => {
       // add the authorization to the headers
       operation.setContext({
-        headers: { Authorization: `bearer ${token}` }
+        headers: { Authorization: `bearer ${token || ""}` }
       });
 
       return forward(operation);

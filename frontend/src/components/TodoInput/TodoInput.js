@@ -1,11 +1,18 @@
+// @flow
+
 import React from "react";
 import { Mutation } from "react-apollo";
 import { CREATE_TODO_QUERY } from "../../queries";
+import { type User } from "../../App";
 
 import "./TodoInput.css";
 
-const TodoInput = ({ user }) => {
-  let input;
+type TodoInputProps = {
+  user: User
+};
+
+const TodoInput = ({ user }: TodoInputProps) => {
+  let input: ?HTMLInputElement;
 
   return (
     <Mutation mutation={CREATE_TODO_QUERY} variables={{ user_id: user.id }}>
@@ -13,9 +20,11 @@ const TodoInput = ({ user }) => {
         <form
           id="TodoInputForm"
           onSubmit={e => {
-            e.preventDefault();
-            createTodo({ variables: { user_id: user.id, content: input.value } });
-            input.value = "";
+            if (input) {
+              e.preventDefault();
+              createTodo({ variables: { user_id: user.id, content: input.value } });
+              input.value = "";
+            }
           }}
         >
           <input

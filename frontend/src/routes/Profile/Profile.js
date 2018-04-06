@@ -1,12 +1,17 @@
+// @flow
+
 import React from "react";
 import { Mutation } from "react-apollo";
 import { UPDATE_USER_QUERY } from "../../queries";
+import { type User } from "../../App";
 
 import "./Profile.css";
 
-export default class Profile extends React.Component {
-  state = {};
+type ProfileProps = {
+  user: User
+};
 
+export default class Profile extends React.Component<ProfileProps> {
   render() {
     let firstNameRef, lastNameRef, emailRef;
     return (
@@ -17,16 +22,16 @@ export default class Profile extends React.Component {
             <form
               onSubmit={e => {
                 e.preventDefault();
-                const submitObj = {
-                  variables: {
-                    id: this.props.user.id,
-                    first_name: firstNameRef.value,
-                    last_name: lastNameRef.value,
-                    email: emailRef.value
-                  }
-                };
-                console.log("submitObj:", submitObj);
-                updateUser(submitObj);
+                if (firstNameRef && lastNameRef && emailRef) {
+                  updateUser({
+                    variables: {
+                      id: this.props.user.id,
+                      first_name: firstNameRef.value,
+                      last_name: lastNameRef.value,
+                      email: emailRef.value
+                    }
+                  });
+                }
               }}
             >
               <div className="form-group">

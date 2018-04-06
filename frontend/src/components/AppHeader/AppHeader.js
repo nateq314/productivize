@@ -1,9 +1,17 @@
+// @flow
+
 import React from "react";
 import { Link } from "react-router-dom";
+import { type User } from "../../App";
 
 import "./AppHeader.css";
 
-export default ({ user, logout }) => (
+type AppHeaderProps = {
+  user: User,
+  logout: () => void
+};
+
+export default ({ user, logout }: AppHeaderProps) => (
   <div id="AppHeader">
     <h1>{user.first_name}'s To-do List</h1>
     <span id="menuItems">

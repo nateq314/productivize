@@ -1,11 +1,19 @@
+// @flow
+
 import React from "react";
 import { Mutation } from "react-apollo";
 import { DELETE_TODO_QUERY } from "../../queries";
-import TrashIcon from "../svgs/faTrashAltRegular.svg";
+import TrashIcon from "../svgs/faTrashAltRegular.svg.js";
 
 import "./ContextMenu.css";
 
-export default ({ todoID, x, y }) => (
+type ContextMenuProps = {
+  todoID: number,
+  x: number,
+  y: number
+};
+
+export default ({ todoID, x, y }: ContextMenuProps) => (
   <ul
     id="ContextMenu"
     style={{

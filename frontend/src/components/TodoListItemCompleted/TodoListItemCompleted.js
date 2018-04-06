@@ -1,10 +1,17 @@
+// @flow
+
 import React from "react";
 import { Mutation } from "react-apollo";
 import { UPDATE_TODO_QUERY } from "../../queries";
+import { type Todo } from "../TodoList/TodoList";
 
 import "./TodoListItemCompleted.css";
 
-export default ({ todo }) => (
+type TodoListItemCompletedProps = {
+  todo: Todo
+};
+
+export default ({ todo }: TodoListItemCompletedProps) => (
   <Mutation mutation={UPDATE_TODO_QUERY}>
     {(updateTodo, { data: mutationResult }) => {
       return (

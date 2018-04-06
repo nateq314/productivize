@@ -1,4 +1,5 @@
 // @flow
+
 import React from "react";
 import TodoListItem from "../TodoListItem/TodoListItem";
 import { List } from "immutable";
@@ -20,7 +21,7 @@ export type Todo = {
 
 type TodoListProps = {
   contextMenu: ContextMenuObjType,
-  setContextMenu: (e: SyntheticMouseEvent<HTMLLIElement>, todoID: number) => void,
+  setContextMenu: (SyntheticMouseEvent<HTMLLIElement>, number) => void,
   todos: Todo[],
   user: User,
   subscribeToTodoUpdates: () => void

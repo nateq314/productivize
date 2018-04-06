@@ -1,16 +1,24 @@
+// @flow
+
 import React from "react";
 import { Link } from "react-router-dom";
 
 import "./Login.css";
 
+type LoginProps = {
+  onSubmit: (string, string) => Promise<void>
+};
+
 let email, password;
 
-export default ({ onSubmit }) => (
+export default ({ onSubmit }: LoginProps) => (
   <div id="Login">
     <form
       onSubmit={e => {
-        e.preventDefault();
-        onSubmit(email.value, password.value);
+        if (email && password) {
+          e.preventDefault();
+          onSubmit(email.value, password.value);
+        }
       }}
     >
       <div className="form-group">
