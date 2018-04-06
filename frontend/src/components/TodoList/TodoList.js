@@ -1,3 +1,4 @@
+// @flow
 import React from "react";
 import TodoListItem from "../TodoListItem/TodoListItem";
 import { List } from "immutable";
@@ -7,14 +8,36 @@ import ContextMenu from "../ContextMenu/ContextMenu";
 
 import "./TodoList.css";
 
-class TodoList extends React.Component {
-  constructor(props) {
+export type Todo = {
+  id: number,
+  content: string,
+  completedOn: number,
+  important: boolean,
+  created_at: number,
+  updated_at: number
+};
+
+type TodoListProps = {
+  contextMenu: any,
+  setContextMenu: (e: SyntheticEvent<HTMLLIElement>, todoID: number) => void,
+  todos: any,
+  user: any,
+  subscribeToTodoUpdates: () => void
+};
+
+type TodoListState = {
+  isEditing: ?number,
+  filter: number,
+  contextMenu: any
+};
+
+class TodoList extends React.Component<TodoListProps, TodoListState> {
+  constructor(props: TodoListProps) {
     super(props);
     this.state = {
       isEditing: null,
       filter: FILTER_UNCOMPLETED,
-      contextMenu: null, // an integer - the todo id
-      contextMenuLocation: null
+      contextMenu: null // an integer - the todo id
     };
   }
 
@@ -60,18 +83,12 @@ class TodoList extends React.Component {
             <h3 id="no-todos">No to-dos to display. Get started by entering one in the above input.</h3>
           )}
         </ul>
-        {this.props.contextMenu && (
-          <ContextMenu
-            todoID={this.props.contextMenu.todoID}
-            x={this.props.contextMenu.x}
-            y={this.props.contextMenu.y}
-          />
-        )}
+        {this.props.contextMenu && <ContextMenu {...this.props.contextMenu} />}
       </div>
     );
   }
 
-  setEditingStatus(todoID) {
+  setEditingStatus(todoID: number) {
     this.setState({
       isEditing: todoID
     });
@@ -83,19 +100,8 @@ class TodoList extends React.Component {
     });
   }
 
-  filterOnChange(filter) {
+  filterOnChange(filter: number) {
     this.setState({ filter });
-  }
-
-  toggleContextMenu(e, todoID) {
-    e.preventDefault();
-    this.setState({
-      contextMenu: this.state.contextMenu === todoID ? null : todoID,
-      contextMenuLocation: {
-        x: e.clientX,
-        y: e.clientY
-      }
-    });
   }
 }
 

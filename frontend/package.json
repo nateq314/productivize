@@ -8,9 +8,10 @@
     "apollo-link-http": "^1.5.2",
     "apollo-link-ws": "^1.0.7",
     "express": "^4.16.3",
+    "flow-bin": "^0.69.0",
     "graphql": "0.13.0",
     "graphql-tag": "^2.8.0",
-    "immutable": "^3.8.2",
+    "immutable": "4.0.0-rc.9",
     "node-sass-chokidar": "^1.2.1",
     "npm-run-all": "^4.1.2",
     "react": "^16.3.0",
@@ -28,6 +29,7 @@
     "build-js": "react-scripts build",
     "build": "npm-run-all build-css build-js",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "flow": "flow"
   }
 }

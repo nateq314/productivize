@@ -1,12 +1,47 @@
+// @flow
 import React from "react";
 import { Query } from "react-apollo";
 import { FETCH_TODOS_QUERY, UPDATE_TODOS_SUBSCRIPTION } from "../../queries";
-import TodoList from "../../components/TodoList/TodoList";
+import TodoList, { type Todo } from "../../components/TodoList/TodoList";
 
-export default ({ user, contextMenu, setContextMenu }) => (
+type User = {
+  id: number,
+  first_name: string,
+  last_name: string,
+  email: string
+};
+
+type HomeProps = {
+  user: User,
+  contextMenu: number,
+  setContextMenu: (e: SyntheticEvent<HTMLLIElement>, todoID: number) => void
+};
+
+type QueryChildrenProps = {
+  data: {
+    todos: Todo[]
+  },
+  error: any,
+  loading: boolean,
+  subscribeToMore: any => void
+};
+
+type TodosUpdateSubscriptionResponse = {
+  subscriptionData: {
+    data: {
+      todosUpdate: {
+        todoAdded?: Todo,
+        todoUpdated?: Todo,
+        todoDeleted?: Todo
+      }
+    }
+  }
+};
+
+export default ({ user, contextMenu, setContextMenu }: HomeProps) => (
   <div id="Home">
     <Query query={FETCH_TODOS_QUERY} variables={{ user_id: user.id }}>
-      {({ data, error, loading, subscribeToMore }) => {
+      {({ data, error, loading, subscribeToMore }: QueryChildrenProps) => {
         if (loading) return <div>Loading...</div>;
         if (error) return <div>Error :(</div>;
         return (
@@ -19,7 +54,7 @@ export default ({ user, contextMenu, setContextMenu }) => (
               subscribeToMore({
                 document: UPDATE_TODOS_SUBSCRIPTION,
                 variables: { user_id: user.id },
-                updateQuery(prev, { subscriptionData }) {
+                updateQuery(prev, { subscriptionData }: TodosUpdateSubscriptionResponse) {
                   if (!subscriptionData.data) return prev;
                   const { todoAdded, todoUpdated, todoDeleted } = subscriptionData.data.todosUpdate;
                   if (todoAdded) {
