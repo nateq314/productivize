@@ -16,6 +16,7 @@ const typeDefs = `
     todos: [Todo]
     created_at: Date!
     updated_at: Date!
+    phone_number: String
 	}
 
 	type Todo {
@@ -26,6 +27,9 @@ const typeDefs = `
     completedOn: Date
     created_at: Date!
     updated_at: Date!
+    order: Int
+    description: String
+    deadline: Date
 	}
 
 	type Query {
@@ -35,11 +39,11 @@ const typeDefs = `
 	}
 
 	type Mutation {
-		createUser(email: String, first_name: String, last_name: String): User
-    createTodo(user_id: Int, content: String, important: Boolean): Todo
+		createUser(email: String, first_name: String, last_name: String, phone_number: String): User
+    createTodo(user_id: Int, content: String, important: Boolean, order: Int, description: String, deadline: Date): Todo
     deleteTodo(id: Int!): Todo
-    updateUser(id: Int!, email: String, first_name: String, last_name: String, updated_at: Date): User
-		updateTodo(id: Int!, content: String, important: Boolean, completedOn: Date, updated_at: Date): Todo
+    updateUser(id: Int!, email: String, first_name: String, last_name: String, phone_number: String, updated_at: Date): User
+		updateTodo(id: Int!, content: String, important: Boolean, completedOn: Date, updated_at: Date, order: Int, description: String, deadline: Date): Todo
   }
 
   type TodoUpdate {
@@ -69,9 +73,9 @@ const resolvers = {
     todos: user => Todo.query().where({ user_id: user.id })
   },
   Mutation: {
-    createUser: (root, { email, first_name, last_name }) => {
+    createUser: (root, ...fields) => {
       return User.query()
-        .insert({ email, first_name, last_name })
+        .insert(fields)
         .returning("*");
     },
     createTodo: async (root, { user_id, content }) => {

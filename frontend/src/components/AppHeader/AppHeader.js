@@ -15,14 +15,11 @@ export default ({ user, logout }: AppHeaderProps) => (
   <div id="AppHeader">
     <h1>{user.first_name}'s To-do List</h1>
     <span id="menuItems">
-      <span id="user_name" className="menuItem">
+      <Link to="/profile" id="user_name" className="menuItem">
         {user.first_name} {user.last_name}
-      </span>
+      </Link>
       <Link id="home" to="/" className="menuItem">
         Home
-      </Link>
-      <Link id="profile" to="/profile" className="menuItem">
-        Profile
       </Link>
       <a id="logout" onClick={logout} className="menuItem">
         Log Out

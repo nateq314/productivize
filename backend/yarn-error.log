@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /opt/yarn/bin/yarn.js add -D babel-node
+  /usr/local/bin/node /opt/yarn/bin/yarn.js knex:migrate
 
 PATH: 
   /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -22,7 +22,7 @@ npm manifest:
     "scripts": {
       "migrate": "knex migrate:latest",
       "start": "yarn run build && yarn run migrate && nodemon build/server",
-      "start-dev": "nodemon babel-node src/server",
+      "start-dev": "yarn run migrate && nodemon --exec babel-node -- ./src/server",
       "build": "babel src -d build",
       "test": "echo \"Error: no test specified\" && exit 1"
     },
@@ -30,10 +30,14 @@ npm manifest:
     "license": "ISC",
     "dependencies": {
       "apollo-server-express": "^1.2.0",
+      "babel-cli": "^6.26.0",
+      "babel-plugin-transform-object-rest-spread": "^6.26.0",
+      "babel-preset-env": "^1.6.1",
       "bcryptjs": "^2.4.3",
       "cors": "^2.8.4",
       "express": "^4.16.2",
       "graphql": "^0.11.7",
+      "graphql-subscriptions": "^0.5.8",
       "graphql-tools": "^2.7.2",
       "jsonwebtoken": "^8.2.0",
       "knex": "^0.13.0",
@@ -41,12 +45,10 @@ npm manifest:
       "passport": "^0.4.0",
       "passport-jwt": "^4.0.0",
       "passport-local": "^1.0.0",
-      "pg": "^7.3.0"
+      "pg": "^7.3.0",
+      "subscriptions-transport-ws": "^0.9.7"
     },
     "devDependencies": {
-      "babel-cli": "^6.26.0",
-      "babel-plugin-transform-object-rest-spread": "^6.26.0",
-      "babel-preset-env": "^1.6.1",
       "eslint": "^4.18.2",
       "eslint-plugin-import": "^2.9.0",
       "nodemon": "^1.12.1"
@@ -255,6 +257,10 @@ Lockfile:
   async-each@^1.0.0:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/async-each/-/async-each-1.0.1.tgz#19d386a1d9edc6e7c1c85d388aedbcc56d33602d"
+  
+  async-limiter@~1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/async-limiter/-/async-limiter-1.0.0.tgz#78faed8c3d074ab81f22b4e985d79e8738f720f8"
   
   asynckit@^0.4.0:
     version "0.4.0"
@@ -765,6 +771,10 @@ Lockfile:
   babylon@^6.18.0:
     version "6.18.0"
     resolved "https://registry.yarnpkg.com/babylon/-/babylon-6.18.0.tgz#af2f3b88fa6f5c1e4c634d1a0f8eac4f55b395e3"
+  
+  backo2@^1.0.2:
+    version "1.0.2"
+    resolved "https://registry.yarnpkg.com/backo2/-/backo2-1.0.2.tgz#31ab1ac8b129363463e35b3ebb69f4dfcfba7947"
   
   balanced-match@^1.0.0:
     version "1.0.0"
@@ -1349,6 +1359,10 @@ Lockfile:
       stream-combiner "~0.0.4"
       through "~2.3.1"
   
+  eventemitter3@^2.0.3:
+    version "2.0.3"
+    resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-2.0.3.tgz#b5e1079b59fb5e1ba2771c0a993be060a58c99ba"
+  
   execa@^0.7.0:
     version "0.7.0"
     resolved "https://registry.yarnpkg.com/execa/-/execa-0.7.0.tgz#944becd34cc41ee32a63a9faf27ad5a65fc59777"
@@ -1719,6 +1733,12 @@ Lockfile:
       core-js "^2.5.1"
       source-map-support "^0.5.0"
   
+  graphql-subscriptions@^0.5.8:
+    version "0.5.8"
+    resolved "https://registry.yarnpkg.com/graphql-subscriptions/-/graphql-subscriptions-0.5.8.tgz#13a6143c546bce390404657dc73ca501def30aa7"
+    dependencies:
+      iterall "^1.2.1"
+  
   graphql-tools@^2.7.2:
     version "2.7.2"
     resolved "https://registry.yarnpkg.com/graphql-tools/-/graphql-tools-2.7.2.tgz#03104a155b15f8441b0e5a7113b12b9512341a9e"
@@ -2048,6 +2068,10 @@ Lockfile:
     version "1.1.3"
     resolved "https://registry.yarnpkg.com/iterall/-/iterall-1.1.3.tgz#1cbbff96204056dde6656e2ed2e2226d0e6d72c9"
   
+  iterall@^1.2.1:
+    version "1.2.2"
+    resolved "https://registry.yarnpkg.com/iterall/-/iterall-1.2.2.tgz#92d70deb8028e0c39ff3164fdbf4d8b088130cd7"
+  
   js-string-escape@1.0.1:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/js-string-escape/-/js-string-escape-1.0.1.tgz#e2625badbc0d67c7533e9edc1068c587ae4137ef"
@@ -2259,6 +2283,10 @@ Lockfile:
       lodash._createassigner "^3.0.0"
       lodash.keys "^3.0.0"
   
+  lodash.assign@^4.2.0:
+    version "4.2.0"
+    resolved "https://registry.yarnpkg.com/lodash.assign/-/lodash.assign-4.2.0.tgz#0d99f3ccd7a6d261d19bdaeb9245005d285808e7"
+  
   lodash.defaults@^3.1.2:
     version "3.1.2"
     resolved "https://registry.yarnpkg.com/lodash.defaults/-/lodash.defaults-3.1.2.tgz#c7308b18dbf8bc9372d701a73493c61192bd2e2c"
@@ -2289,6 +2317,10 @@ Lockfile:
   lodash.isnumber@^3.0.3:
     version "3.0.3"
     resolved "https://registry.yarnpkg.com/lodash.isnumber/-/lodash.isnumber-3.0.3.tgz#3ce76810c5928d03352301ac287317f11c0b1ffc"
+  
+  lodash.isobject@^3.0.2:
+    version "3.0.2"
+    resolved "https://registry.yarnpkg.com/lodash.isobject/-/lodash.isobject-3.0.2.tgz#3c8fb8d5b5bf4bf90ae06e14f2a530a4ed935e1d"
   
   lodash.isplainobject@^4.0.6:
     version "4.0.6"
@@ -3348,6 +3380,19 @@ Lockfile:
     version "2.0.1"
     resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
   
+  subscriptions-transport-ws@^0.9.7:
+    version "0.9.7"
+    resolved "https://registry.yarnpkg.com/subscriptions-transport-ws/-/subscriptions-transport-ws-0.9.7.tgz#9be456d6e188c96a53c91f570850e59bee5840ac"
+    dependencies:
+      backo2 "^1.0.2"
+      eventemitter3 "^2.0.3"
+      iterall "^1.2.1"
+      lodash.assign "^4.2.0"
+      lodash.isobject "^3.0.2"
+      lodash.isstring "^4.0.1"
+      symbol-observable "^1.0.4"
+      ws "^3.0.0"
+  
   supports-color@^2.0.0:
     version "2.0.0"
     resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-2.0.0.tgz#535d045ce6b6363fa40117084629995e9df324c7"
@@ -3363,6 +3408,10 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-5.3.0.tgz#5b24ac15db80fa927cf5227a4a33fd3c4c7676c0"
     dependencies:
       has-flag "^3.0.0"
+  
+  symbol-observable@^1.0.4:
+    version "1.2.0"
+    resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.2.0.tgz#c22688aed4eab3cdc2dfeacbb561660560a00804"
   
   table@4.0.2:
     version "4.0.2"
@@ -3476,6 +3525,10 @@ Lockfile:
   uid-number@^0.0.6:
     version "0.0.6"
     resolved "https://registry.yarnpkg.com/uid-number/-/uid-number-0.0.6.tgz#0ea10e8035e8eb5b8e4449f06da1c730663baa81"
+  
+  ultron@~1.1.0:
+    version "1.1.1"
+    resolved "https://registry.yarnpkg.com/ultron/-/ultron-1.1.1.tgz#9fe1536a10a664a65266a1e3ccf85fd36302bc9c"
   
   undefsafe@0.0.3:
     version "0.0.3"
@@ -3596,6 +3649,14 @@ Lockfile:
     dependencies:
       mkdirp "^0.5.1"
   
+  ws@^3.0.0:
+    version "3.3.3"
+    resolved "https://registry.yarnpkg.com/ws/-/ws-3.3.3.tgz#f1cf84fe2d5e901ebce94efaece785f187a228f2"
+    dependencies:
+      async-limiter "~1.0.0"
+      safe-buffer "~5.1.0"
+      ultron "~1.1.0"
+  
   xdg-basedir@^3.0.0:
     version "3.0.0"
     resolved "https://registry.yarnpkg.com/xdg-basedir/-/xdg-basedir-3.0.0.tgz#496b2cc109eca8dbacfe2dc72b603c17c5870ad4"
@@ -3609,22 +3670,14 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/yallist/-/yallist-2.1.2.tgz#1c11f9218f076089a47dd512f93c6699a6a81d52"
 
 Trace: 
-  Error: /app/node_modules/babel-node: Command failed.
-  Exit code: 1
-  Command: sh
-  Arguments: -c node message.js; sleep 10; exit 1;
-  Directory: /app/node_modules/babel-node
-  Output:
-  ┌─────────────────────────────────────────────────────────────────────────────┐
-  |                         Hello there [34mundefined[39m 😛                           [0m│
-  |[39m          You tried to install babel-node. This is not babel-node 🚫          [0m│
-  |[39m               You should [34mnpm install -g babel-cli[39m instead 💁 .               [0m│
-  |[39m    I took this module to prevent somebody from pushing malicious code. 🕵    [0m│
-  |[39m                    Be careful out there, [34mundefined[39m! 👍                     [0m│
-  └─────────────────────────────────────────────────────────────────────────────┘
-      at ProcessTermError.MessageError (/opt/yarn/lib/cli.js:186:110)
-      at new ProcessTermError (/opt/yarn/lib/cli.js:226:113)
-      at ChildProcess.<anonymous> (/opt/yarn/lib/cli.js:30281:17)
-      at ChildProcess.emit (events.js:127:13)
-      at maybeClose (internal/child_process.js:936:16)
-      at Process.ChildProcess._handle.onexit (internal/child_process.js:220:5)
+  Error: Command "knex:migrate" not found.
+      at new MessageError (/opt/yarn/lib/cli.js:186:110)
+      at /opt/yarn/lib/cli.js:87307:17
+      at Generator.next (<anonymous>)
+      at step (/opt/yarn/lib/cli.js:98:30)
+      at /opt/yarn/lib/cli.js:116:14
+      at new Promise (<anonymous>)
+      at new F (/opt/yarn/lib/cli.js:23451:28)
+      at /opt/yarn/lib/cli.js:95:12
+      at runCommand (/opt/yarn/lib/cli.js:87312:22)
+      at Object.<anonymous> (/opt/yarn/lib/cli.js:87412:14)
