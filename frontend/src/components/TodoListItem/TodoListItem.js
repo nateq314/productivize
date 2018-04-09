@@ -13,16 +13,29 @@ type TodoListItemProps = {
   isEditing: ?number,
   beginEdit: () => void,
   endEdit: () => void,
-  setContextMenu: (SyntheticMouseEvent<HTMLLIElement>, number) => void
+  setContextMenu: (SyntheticMouseEvent<HTMLLIElement>, number) => void,
+  setSelected: () => void,
+  clearSelected: () => void,
+  isSelected: boolean
 };
 
-export default ({ todo, isEditing, beginEdit, endEdit, setContextMenu }: TodoListItemProps) => (
+export default ({
+  todo,
+  isEditing,
+  beginEdit,
+  endEdit,
+  setContextMenu,
+  setSelected,
+  clearSelected,
+  isSelected
+}: TodoListItemProps) => (
   <li
-    className={`TodoListItem`}
+    className={`TodoListItem ${isSelected ? "selected" : ""}`}
     onContextMenu={e => {
       setContextMenu(e, todo.id);
       e.stopPropagation();
     }}
+    onClick={setSelected}
   >
     <TodoListItemCompleted todo={todo} />
     <TodoListItemContent beginEdit={beginEdit} endEdit={endEdit} isEditing={isEditing === todo.id} todo={todo} />

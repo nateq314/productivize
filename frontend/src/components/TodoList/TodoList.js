@@ -29,7 +29,8 @@ type TodoListProps = {
 
 type TodoListState = {
   isEditing: ?number,
-  filter: number
+  filter: number,
+  selectedTodo: ?number
 };
 
 class TodoList extends React.Component<TodoListProps, TodoListState> {
@@ -38,11 +39,12 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
     this.state = {
       isEditing: null,
       filter: FILTER_UNCOMPLETED,
-      contextMenu: null // an integer - the todo id
+      selectedTodo: null
     };
   }
 
   componentDidMount() {
+    console.log("componentDidMount()");
     this.props.subscribeToTodoUpdates();
   }
 
@@ -76,8 +78,11 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
                   idx={idx}
                   isEditing={this.state.isEditing}
                   beginEdit={this.setEditingStatus.bind(this, todo.id)}
-                  endEdit={this.clearEditingStatus.bind(this)}
+                  endEdit={this.setEditingStatus.bind(this, null)}
                   setContextMenu={this.props.setContextMenu}
+                  setSelected={this.setSelectedTodo.bind(this, todo.id)}
+                  clearSelected={this.setSelectedTodo.bind(this, null)}
+                  isSelected={this.state.selectedTodo === todo.id}
                 />
               ))
           ) : (
@@ -89,15 +94,16 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
     );
   }
 
-  setEditingStatus(todoID: number) {
+  setSelectedTodo(todoID: ?number) {
+    // TODO filter out clicks on other sub-elements (importance, completed checkbox, todo content)
     this.setState({
-      isEditing: todoID
+      selectedTodo: this.state.selectedTodo === todoID ? null : todoID
     });
   }
 
-  clearEditingStatus() {
+  setEditingStatus(todoID: ?number) {
     this.setState({
-      isEditing: null
+      isEditing: todoID
     });
   }
 

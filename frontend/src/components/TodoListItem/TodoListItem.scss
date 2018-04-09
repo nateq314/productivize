@@ -9,6 +9,10 @@
     border-top: 1px solid #333;
   }
 
+  &.selected {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
   .todo-option-icons {
     flex-grow: 1;
     display: flex;
