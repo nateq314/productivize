@@ -15,7 +15,6 @@ type TodoListItemProps = {
   endEdit: () => void,
   setContextMenu: (SyntheticMouseEvent<HTMLLIElement>, number) => void,
   setSelected: () => void,
-  clearSelected: () => void,
   isSelected: boolean
 };
 
@@ -26,7 +25,6 @@ export default ({
   endEdit,
   setContextMenu,
   setSelected,
-  clearSelected,
   isSelected
 }: TodoListItemProps) => (
   <li

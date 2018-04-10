@@ -7,6 +7,7 @@ import TodoInput from "../TodoInput/TodoInput";
 import TodoFilter, { FILTER_ALL, FILTER_UNCOMPLETED, FILTER_COMPLETED } from "../TodoFilter/TodoFilter";
 import ContextMenu from "../ContextMenu/ContextMenu";
 import { type User, type ContextMenuObjType } from "../../App";
+import TodoDetailsPane from "../TodoDetailsPane/TodoDetailsPane";
 
 import "./TodoList.css";
 
@@ -61,44 +62,51 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
           return false;
       }
     });
+    const selectedTodo = this.state.selectedTodo
+      ? this.props.todos.find(todo => todo.id === this.state.selectedTodo)
+      : null;
     return (
-      <div id="TodoList">
+      <div id="TodoList" className={this.state.selectedTodo ? "todoSelected" : null}>
         <div id="subheader">
           <TodoInput user={this.props.user} />
           <TodoFilter filter={this.state.filter} onChange={this.filterOnChange.bind(this)} />
         </div>
-        <ul>
-          {filteredTodos.length > 0 ? (
-            List(filteredTodos)
-              .sort((a, b) => (a.id < b.id ? -1 : 1))
-              .map((todo, idx) => (
-                <TodoListItem
-                  key={todo.id}
-                  todo={todo}
-                  idx={idx}
-                  isEditing={this.state.isEditing}
-                  beginEdit={this.setEditingStatus.bind(this, todo.id)}
-                  endEdit={this.setEditingStatus.bind(this, null)}
-                  setContextMenu={this.props.setContextMenu}
-                  setSelected={this.setSelectedTodo.bind(this, todo.id)}
-                  clearSelected={this.setSelectedTodo.bind(this, null)}
-                  isSelected={this.state.selectedTodo === todo.id}
-                />
-              ))
-          ) : (
-            <h3 id="no-todos">No to-dos to display. Get started by entering one in the above input.</h3>
-          )}
-        </ul>
-        {this.props.contextMenu && <ContextMenu {...this.props.contextMenu} />}
+        <div id="todoListContainer">
+          <ul className="todos">
+            {filteredTodos.length > 0 ? (
+              List(filteredTodos)
+                .sort((a, b) => (a.id < b.id ? -1 : 1))
+                .map((todo, idx) => (
+                  <TodoListItem
+                    key={todo.id}
+                    todo={todo}
+                    idx={idx}
+                    isEditing={this.state.isEditing}
+                    beginEdit={this.setEditingStatus.bind(this, todo.id)}
+                    endEdit={this.setEditingStatus.bind(this, null)}
+                    setContextMenu={this.props.setContextMenu}
+                    setSelected={this.setSelectedTodo.bind(this, todo.id)}
+                    isSelected={this.state.selectedTodo === todo.id}
+                  />
+                ))
+            ) : (
+              <h3 id="no-todos">No to-dos to display. Get started by entering one in the above input.</h3>
+            )}
+          </ul>
+          <TodoDetailsPane todo={selectedTodo} />
+          {this.props.contextMenu && <ContextMenu {...this.props.contextMenu} />}
+        </div>
       </div>
     );
   }
 
-  setSelectedTodo(todoID: ?number) {
-    // TODO filter out clicks on other sub-elements (importance, completed checkbox, todo content)
-    this.setState({
-      selectedTodo: this.state.selectedTodo === todoID ? null : todoID
-    });
+  setSelectedTodo(todo: number, e: any) {
+    if (/(DIV|LI)/.test(e.target.nodeName)) {
+      const { selectedTodo } = this.state;
+      this.setState({
+        selectedTodo: selectedTodo === todo ? null : todo
+      });
+    }
   }
 
   setEditingStatus(todoID: ?number) {

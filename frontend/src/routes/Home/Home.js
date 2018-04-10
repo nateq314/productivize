@@ -6,6 +6,8 @@ import { FETCH_TODOS_QUERY, UPDATE_TODOS_SUBSCRIPTION } from "../../queries";
 import TodoList, { type Todo } from "../../components/TodoList/TodoList";
 import { type User, type ContextMenuObjType } from "../../App";
 
+import "./Home.css";
+
 type HomeProps = {
   user: User,
   contextMenu: ContextMenuObjType,

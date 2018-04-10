@@ -1,8 +1,33 @@
 #TodoList {
-  ul {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 100px 1fr;
+  grid-template-areas:
+    "subheader"
+    "todoListContainer";
+  height: 100%;
+
+  &.todoSelected {
+    ul.todos {
+      width: 70%;
+    }
+
+    #TodoDetailsPane {
+      width: 30%;
+    }
+  }
+
+  #todoListContainer {
+    grid-area: todoListContainer;
+  }
+
+  ul.todos {
     list-style-type: none;
     padding-left: 0px;
     margin: 0px;
+    width: 100%;
+    float: left;
+    transition: 0.5s width;
   }
 
   #subheader {
