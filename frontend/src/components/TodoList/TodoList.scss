@@ -13,7 +13,8 @@
     }
 
     #TodoDetailsPane {
-      width: 30%;
+      width: calc(30% - 1px);
+      display: unset;
     }
   }
 
@@ -27,7 +28,7 @@
     margin: 0px;
     width: 100%;
     float: left;
-    transition: 0.5s width;
+    // transition: 0.5s width;
   }
 
   #subheader {

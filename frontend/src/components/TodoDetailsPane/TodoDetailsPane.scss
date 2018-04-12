@@ -1,10 +1,13 @@
 #TodoDetailsPane {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.05);
   overflow-x: hidden;
-  transition: 0.5s width;
+  // transition: 0.5s width;
   width: 0px;
   float: left;
-  height: 100%;
+  height: calc(100% - 1px);
+  border-left: 1px solid #333;
+  border-top: 1px solid #333;
+  display: none;
 
   #detailsContainer {
     width: 100%;

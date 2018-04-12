@@ -2,10 +2,16 @@ import React from "react";
 
 import "./TodoDetailsPane.css";
 
-export default ({ todo }) => (
-  <div id="TodoDetailsPane">
-    <div id="detailsContainer">
-      <div className="content">{todo && todo.content}</div>
+export default ({ todo }) => {
+  console.log(todo);
+  return todo ? (
+    <div id="TodoDetailsPane">
+      <div id="detailsContainer">
+        <form onSubmit={null}>
+          <input className="content" value={todo.content} />
+          <textarea className="description" value={todo.description || ""} />
+        </form>
+      </div>
     </div>
-  </div>
-);
+  ) : null;
+};

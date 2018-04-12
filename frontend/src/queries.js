@@ -5,6 +5,7 @@ export const FETCH_TODOS_QUERY = gql`
     todos(user_id: $user_id) {
       id
       content
+      description
       important
       completedOn
       created_at
@@ -18,6 +19,7 @@ export const CREATE_TODO_QUERY = gql`
     createTodo(user_id: $user_id, content: $content) {
       id
       content
+      description
       important
       completedOn
       created_at
@@ -31,6 +33,7 @@ export const DELETE_TODO_QUERY = gql`
     deleteTodo(id: $id) {
       id
       content
+      description
       important
       completedOn
       created_at
@@ -44,6 +47,7 @@ export const UPDATE_TODO_QUERY = gql`
     updateTodo(id: $id, content: $content, important: $important, completedOn: $completedOn) {
       id
       content
+      description
       important
       completedOn
       created_at
