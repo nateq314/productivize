@@ -9,11 +9,11 @@
 
   &.todoSelected {
     ul.todos {
-      width: 70%;
+      width: calc(100% - 401px);
     }
 
     #TodoDetailsPane {
-      width: calc(30% - 1px);
+      width: 400px;
       display: unset;
     }
   }

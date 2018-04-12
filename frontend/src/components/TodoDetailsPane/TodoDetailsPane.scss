@@ -1,7 +1,8 @@
+@import "../../colors.scss";
+
 #TodoDetailsPane {
   background-color: rgba(255, 255, 255, 0.05);
   overflow-x: hidden;
-  // transition: 0.5s width;
   width: 0px;
   float: left;
   height: calc(100% - 1px);
@@ -11,7 +12,42 @@
 
   #detailsContainer {
     width: 100%;
-    min-width: 300px;
+  }
+
+  input,
+  textarea {
+    display: block;
+    border: none;
+    padding: 10px;
+    font-size: 1.1em;
+    font-family: sans-serif;
+    width: 94%;
+    height: 200px;
+    background-color: inherit;
+    // background-color: rgba(#fff, 0.1);
+    color: $default-text-color;
+    resize: none;
+    border-radius: 6px;
+    line-height: 25px;
+  }
+
+  .content {
     padding: 30px;
+    background-color: #333;
+
+    textarea {
+      height: 50px;
+    }
+  }
+
+  .description {
+    padding: 30px;
+
+    label {
+      display: inline-block;
+      font-size: 1.1em;
+      margin: 0px 0px 7px 10px;
+      color: #fff;
+    }
   }
 }

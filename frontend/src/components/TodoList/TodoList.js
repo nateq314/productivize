@@ -14,6 +14,7 @@ import "./TodoList.css";
 export type Todo = {
   id: number,
   content: string,
+  description: string,
   completedOn: number,
   important: boolean,
   created_at: number,

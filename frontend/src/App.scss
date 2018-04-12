@@ -1,5 +1,9 @@
 @import "./colors.scss";
 
+body {
+  color: $default-text-color;
+}
+
 a {
   text-decoration: none;
   color: $link-color;
