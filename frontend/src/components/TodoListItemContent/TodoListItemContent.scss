@@ -26,6 +26,7 @@
       color: inherit;
       caret-color: transparent;
       border-radius: 4px;
+      transition: 0.5s background-color;
     }
 
     &.isEditing input {

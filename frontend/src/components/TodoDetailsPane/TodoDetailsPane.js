@@ -43,9 +43,8 @@ export default class TodoDetilsPane extends React.Component<TodoDetailsPaneProps
         {(updateTodo, { data }) => (
           <div id="TodoDetailsPane">
             <div id="detailsContainer">
-              <div className="content">
+              <div className={`content ${this.state.contentIsEditing ? "editing" : ""}`}>
                 <textarea
-                  className={this.state.contentIsEditing ? "editing" : ""}
                   readOnly={!this.state.contentIsEditing}
                   value={this.state.content || ""}
                   onBlur={this.onBlur("content")}
@@ -54,8 +53,9 @@ export default class TodoDetilsPane extends React.Component<TodoDetailsPaneProps
                   onKeyDown={this.onKeyDown("content", updateTodo, false)}
                 />
               </div>
-              <div className="description">
-                <label>Description (alt-Enter to submit)</label>
+              <div className={`description ${this.state.descriptionIsEditing ? "editing" : ""}`}>
+                <label>DESCRIPTION</label>
+                <span className={`smallprint`}>(Ctrl+Enter to submit)</span>
                 <textarea
                   className={this.state.descriptionIsEditing ? "editing" : ""}
                   readOnly={!this.state.descriptionIsEditing}
@@ -100,7 +100,7 @@ export default class TodoDetilsPane extends React.Component<TodoDetailsPaneProps
       e.nativeEvent.stopImmediatePropagation();
     }
     if (e.keyCode === 13) {
-      if (e.altKey || !allowNewline) {
+      if (e.altKey || e.metaKey || !allowNewline) {
         e.preventDefault();
         updateTodo({
           variables: {

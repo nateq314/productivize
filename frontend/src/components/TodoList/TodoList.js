@@ -135,7 +135,21 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
   }
 
   filterOnChange(filter: number) {
-    this.setState({ filter });
+    const selectedTodo = this.state.selectedTodo
+      ? this.props.todos.find(todo => todo.id === this.state.selectedTodo)
+      : null;
+    const newState: Object = {
+      filter,
+      filteredTodos: getFilteredTodos(this.props.todos, filter)
+    };
+    if (
+      selectedTodo &&
+      ((filter === FILTER_COMPLETED && !selectedTodo.completedOn) ||
+        (filter === FILTER_UNCOMPLETED && selectedTodo.completedOn))
+    ) {
+      newState.selectedTodo = null;
+    }
+    this.setState(newState);
   }
 
   documentOnKeydown(e: KeyboardEvent) {
