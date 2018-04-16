@@ -34,6 +34,7 @@ type AppState = {
 
 export default class App extends React.Component<{}, AppState> {
   client: any;
+  userUpdateUnsubscribe: () => void;
 
   constructor(props: any) {
     super(props);
@@ -42,6 +43,13 @@ export default class App extends React.Component<{}, AppState> {
       user_id: localStorage.getItem("apollo_fullstack_todolist_user_id"),
       contextMenu: null
     };
+  }
+
+  componentWillUnmount() {
+    console.log("componentWillUnmount()");
+    if (this.userUpdateUnsubscribe) {
+      this.userUpdateUnsubscribe();
+    }
   }
 
   render() {
@@ -63,7 +71,7 @@ export default class App extends React.Component<{}, AppState> {
           {({ data, loading, error, subscribeToMore }) => {
             if (loading) return null;
             const { user } = data;
-            subscribeToMore({
+            this.userUpdateUnsubscribe = subscribeToMore({
               document: UPDATE_USER_SUBSCRIPTION,
               variables: { id: user.id },
               updateQuery(prev, { subscriptionData }) {
@@ -141,6 +149,7 @@ export default class App extends React.Component<{}, AppState> {
   logout() {
     localStorage.clear();
     this.setState({ user_id: null });
+    // this.userUpdateUnsubscribe();
   }
 
   appOnClick(e: SyntheticMouseEvent<HTMLDivElement>) {

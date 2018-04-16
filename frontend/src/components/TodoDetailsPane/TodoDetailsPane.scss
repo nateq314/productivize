@@ -17,26 +17,40 @@
   input,
   textarea {
     display: block;
-    border: none;
+    border: 1px solid rgba(#fff, 0);
     padding: 10px;
     font-size: 1.1em;
     font-family: sans-serif;
     width: 94%;
     height: 200px;
     background-color: inherit;
-    // background-color: rgba(#fff, 0.1);
     color: $default-text-color;
     resize: none;
     border-radius: 6px;
     line-height: 25px;
+    caret-color: #2b2d3e;
+    cursor: pointer;
+    transition: 0.5s background-color;
+
+    &:hover {
+      background-color: rgba(#000, 0.25);
+    }
+
+    &.editing {
+      background-color: rgba(#000, 0.25);
+      caret-color: unset;
+      cursor: text;
+      border-color: rgba(#fff, 0.2);
+    }
   }
 
   .content {
-    padding: 30px;
-    background-color: #333;
+    padding: 10px 30px;
+    background-color: #2b2d3e;
 
     textarea {
       height: 50px;
+      font-weight: bold;
     }
   }
 

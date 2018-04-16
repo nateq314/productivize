@@ -32,8 +32,24 @@ type TodoListProps = {
 type TodoListState = {
   isEditing: ?number,
   filter: number,
-  selectedTodo: ?number
+  selectedTodo: ?number,
+  filteredTodos: Todo[]
 };
+
+function getFilteredTodos(todos: Todo[], filter: number): Todo[] {
+  return todos.filter(todo => {
+    switch (filter) {
+      case FILTER_UNCOMPLETED:
+        return !todo.completedOn;
+      case FILTER_COMPLETED:
+        return todo.completedOn;
+      case FILTER_ALL:
+        return true;
+      default:
+        return false;
+    }
+  });
+}
 
 class TodoList extends React.Component<TodoListProps, TodoListState> {
   constructor(props: TodoListProps) {
@@ -41,28 +57,30 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
     this.state = {
       isEditing: null,
       filter: FILTER_UNCOMPLETED,
-      selectedTodo: null
+      selectedTodo: null,
+      filteredTodos: getFilteredTodos(this.props.todos, FILTER_UNCOMPLETED)
     };
   }
 
   componentDidMount() {
-    console.log("componentDidMount()");
     this.props.subscribeToTodoUpdates();
+    document.addEventListener("keydown", this.documentOnKeydown.bind(this));
+  }
+
+  componentDidUpdate(prevProps: TodoListProps) {
+    // console.log("TodoList componentDidUpdate()");
+    if (prevProps.todos !== this.props.todos) {
+      this.setState({
+        filteredTodos: getFilteredTodos(this.props.todos, this.state.filter)
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.documentOnKeydown);
   }
 
   render() {
-    const filteredTodos = this.props.todos.filter(todo => {
-      switch (this.state.filter) {
-        case FILTER_UNCOMPLETED:
-          return !todo.completedOn;
-        case FILTER_COMPLETED:
-          return todo.completedOn;
-        case FILTER_ALL:
-          return true;
-        default:
-          return false;
-      }
-    });
     const selectedTodo = this.state.selectedTodo
       ? this.props.todos.find(todo => todo.id === this.state.selectedTodo)
       : null;
@@ -74,8 +92,8 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
         </div>
         <div id="todoListContainer">
           <ul className="todos">
-            {filteredTodos.length > 0 ? (
-              List(filteredTodos)
+            {this.state.filteredTodos.length > 0 ? (
+              List(this.state.filteredTodos)
                 .sort((a, b) => (a.id < b.id ? -1 : 1))
                 .map((todo, idx) => (
                   <TodoListItem
@@ -94,7 +112,7 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
               <h3 id="no-todos">No to-dos to display. Get started by entering one in the above input.</h3>
             )}
           </ul>
-          <TodoDetailsPane todo={selectedTodo} />
+          {selectedTodo && <TodoDetailsPane todo={selectedTodo} />}
           {this.props.contextMenu && <ContextMenu {...this.props.contextMenu} />}
         </div>
       </div>
@@ -118,6 +136,14 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
 
   filterOnChange(filter: number) {
     this.setState({ filter });
+  }
+
+  documentOnKeydown(e: KeyboardEvent) {
+    if (e.keyCode === 27) {
+      this.setState({
+        selectedTodo: null
+      });
+    }
   }
 }
 

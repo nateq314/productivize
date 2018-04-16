@@ -26,19 +26,21 @@ export default ({
   setContextMenu,
   setSelected,
   isSelected
-}: TodoListItemProps) => (
-  <li
-    className={`TodoListItem ${isSelected ? "selected" : ""}`}
-    onContextMenu={e => {
-      setContextMenu(e, todo.id);
-      e.stopPropagation();
-    }}
-    onClick={setSelected}
-  >
-    <TodoListItemCompleted todo={todo} />
-    <TodoListItemContent beginEdit={beginEdit} endEdit={endEdit} isEditing={isEditing === todo.id} todo={todo} />
-    <div className="todo-option-icons">
-      <TodoListItemImportance todo={todo} />
-    </div>
-  </li>
-);
+}: TodoListItemProps) => {
+  return (
+    <li
+      className={`TodoListItem ${isSelected ? "selected" : ""}`}
+      onContextMenu={e => {
+        setContextMenu(e, todo.id);
+        e.stopPropagation();
+      }}
+      onClick={setSelected}
+    >
+      <TodoListItemCompleted todo={todo} />
+      <TodoListItemContent beginEdit={beginEdit} endEdit={endEdit} isEditing={isEditing === todo.id} todo={todo} />
+      <div className="todo-option-icons">
+        <TodoListItemImportance todo={todo} />
+      </div>
+    </li>
+  );
+};

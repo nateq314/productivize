@@ -41,7 +41,22 @@ ws.listen(PORT, () => {
     {
       execute,
       subscribe,
-      schema
+      schema,
+      onConnect(connectionParams, websocket) {
+        console.log("====================== CONNECTED ====================");
+        // console.log("websocket:", websocket);
+        // console.log("=====================================================");
+      },
+      onDisconnect(websocket, context) {
+        console.log("==================== DISCONNECTED ====================");
+        // console.log("websocket:", websocket);
+        // console.log("======================================================");
+      },
+      onOperationComplete(websocket, opId) {
+        console.log("==================== OPERATION DONE ====================");
+        // console.log("opId:", opId);
+        // console.log("========================================================");
+      }
     },
     {
       server: ws,

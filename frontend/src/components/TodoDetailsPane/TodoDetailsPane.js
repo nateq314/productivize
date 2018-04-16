@@ -8,18 +8,23 @@ import { UPDATE_TODO_QUERY } from "../../queries";
 import "./TodoDetailsPane.css";
 
 type TodoDetailsPaneProps = {
-  todo: ?Todo
+  // clearSelectedTodo: () => void,
+  todo: Todo
 };
 
 type TodoDetailsPaneState = {
   content: ?string,
-  description: ?string
+  contentIsEditing: boolean,
+  description: ?string,
+  descriptionIsEditing: boolean
 };
 
 export default class TodoDetilsPane extends React.Component<TodoDetailsPaneProps, TodoDetailsPaneState> {
   state = {
-    content: null,
-    description: null
+    content: this.props.todo.content,
+    contentIsEditing: false,
+    description: this.props.todo.description,
+    descriptionIsEditing: false
   };
 
   componentDidUpdate(prevProps: TodoDetailsPaneProps) {
@@ -32,37 +37,49 @@ export default class TodoDetilsPane extends React.Component<TodoDetailsPaneProps
   }
 
   render() {
-    const { todo } = this.props;
-    return todo ? (
+    // const { todo } = this.props;
+    return (
       <Mutation mutation={UPDATE_TODO_QUERY}>
         {(updateTodo, { data }) => (
           <div id="TodoDetailsPane">
             <div id="detailsContainer">
-              <form onSubmit={this.onSubmit}>
-                <div className="content">
-                  <textarea
-                    value={this.state.content || ""}
-                    onChange={this.onChange("content")}
-                    onClick={this.onClick("content")}
-                    onKeyDown={this.onKeyDown("content")}
-                  />
-                </div>
-                <div className="description">
-                  <label>Description</label>
-                  <textarea
-                    value={this.state.description || ""}
-                    onChange={this.onChange("description")}
-                    onClick={this.onClick("description")}
-                    onKeyDown={this.onKeyDown("description")}
-                  />
-                </div>
-              </form>
+              <div className="content">
+                <textarea
+                  className={this.state.contentIsEditing ? "editing" : ""}
+                  readOnly={!this.state.contentIsEditing}
+                  value={this.state.content || ""}
+                  onBlur={this.onBlur("content")}
+                  onChange={this.onChange("content")}
+                  onClick={this.onClick("content")}
+                  onKeyDown={this.onKeyDown("content", updateTodo, false)}
+                />
+              </div>
+              <div className="description">
+                <label>Description (alt-Enter to submit)</label>
+                <textarea
+                  className={this.state.descriptionIsEditing ? "editing" : ""}
+                  readOnly={!this.state.descriptionIsEditing}
+                  value={this.state.description || ""}
+                  onBlur={this.onBlur("description")}
+                  onChange={this.onChange("description")}
+                  onClick={this.onClick("description")}
+                  onKeyDown={this.onKeyDown("description", updateTodo)}
+                  placeholder="(Enter to-do description here)"
+                />
+              </div>
             </div>
           </div>
         )}
       </Mutation>
-    ) : null;
+    );
   }
+
+  onBlur = (name: string) => () => {
+    this.setState({
+      [name]: this.props.todo[name],
+      [name + "IsEditing"]: false
+    });
+  };
 
   onChange = (name: string) => (e: SyntheticKeyboardEvent<HTMLTextAreaElement>) => {
     this.setState({
@@ -71,39 +88,48 @@ export default class TodoDetilsPane extends React.Component<TodoDetailsPaneProps
   };
 
   onClick = (name: string) => (e: SyntheticMouseEvent<HTMLTextAreaElement>) => {
-    // TODO: implement this
+    this.setState({
+      [name + "IsEditing"]: true
+    });
   };
 
-  onKeyDown = (name: string) => (e: SyntheticKeyboardEvent<HTMLTextAreaElement>) => {
+  onKeyDown = (name: string, updateTodo: any, allowNewline: boolean = true) => (
+    e: SyntheticKeyboardEvent<HTMLTextAreaElement>
+  ) => {
+    if (this.state[name + "IsEditing"]) {
+      e.nativeEvent.stopImmediatePropagation();
+    }
     if (e.keyCode === 13) {
-      if (!e.altKey) {
-        this.onSubmit();
+      if (e.altKey || !allowNewline) {
         e.preventDefault();
-      } else {
-        const taElement = e.currentTarget;
-        const idx = taElement.selectionStart;
-        this.setState(
-          {
-            [name]: this.state[name].slice(0, idx) + "\r\n" + this.state[name].slice(idx)
-          },
-          () => {
-            taElement.selectionStart = taElement.selectionEnd = idx + 1;
+        updateTodo({
+          variables: {
+            id: this.props.todo.id,
+            [name]: this.state[name]
           }
-        );
+        });
+        this.setState({
+          [name + "IsEditing"]: false
+        });
+      } else {
+        if (!allowNewline) {
+          const taElement = e.currentTarget;
+          const idx = taElement.selectionStart;
+          this.setState(
+            {
+              [name]: this.state[name].slice(0, idx) + "\r\n" + this.state[name].slice(idx)
+            },
+            () => {
+              taElement.selectionStart = taElement.selectionEnd = idx + 1;
+            }
+          );
+        }
       }
     } else if (e.keyCode === 27) {
-      if (this.props.todo) {
-        // TODO: make this.props.todo a definite (not a maybe) type and get rid of this if block
-        this.setState({
-          [name]: this.props.todo[name]
-        });
-      }
+      this.setState({
+        [name]: this.props.todo[name],
+        [name + "IsEditing"]: false
+      });
     }
   };
-
-  onSubmit(e: ?SyntheticEvent<HTMLFormElement>) {
-    console.log("submitting...");
-    if (e) e.preventDefault();
-    // TODO: implement the rest of this
-  }
 }
