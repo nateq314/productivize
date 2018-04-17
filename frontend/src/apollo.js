@@ -8,7 +8,7 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 import { getMainDefinition } from "apollo-utilities";
 
 const isProd = process.env.NODE_ENV === "production";
-export const host = isProd ? "35.227.120.175" : "localhost";
+export const host = isProd ? "productivize.net" : "localhost";
 export const port = "3000";
 
 export function getApolloClient(token: ?string) {

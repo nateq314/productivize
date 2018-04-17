@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/Cellar/node/9.9.0/bin/node /usr/local/Cellar/yarn/1.5.1/libexec/bin/yarn.js run api bash
+  /usr/local/Cellar/node/9.9.0/bin/node /usr/local/Cellar/yarn/1.5.1/libexec/bin/yarn.js dev
 
 PATH: 
   /Users/williamquarles/.rvm/gems/ruby-2.1.4/bin:/Users/williamquarles/.rvm/gems/ruby-2.1.4@global/bin:/Users/williamquarles/.rvm/rubies/ruby-2.1.4/bin:/Users/williamquarles/google-cloud-sdk/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Wireshark.app/Contents/MacOS:/Users/williamquarles/Library/Android/sdk/tools:/Users/williamquarles/Library/Android/sdk/platform-tools:/Users/williamquarles/.rvm/bin
