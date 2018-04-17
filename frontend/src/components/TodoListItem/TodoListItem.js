@@ -29,7 +29,7 @@ export default ({
 }: TodoListItemProps) => {
   return (
     <li
-      className={`TodoListItem ${isSelected ? "selected" : ""}`}
+      className={`TodoListItem ${isSelected ? "selected" : ""} ${todo.important ? "important" : ""}`}
       onContextMenu={e => {
         setContextMenu(e, todo.id);
         e.stopPropagation();

@@ -19,14 +19,16 @@ export default ({ todo }: TodoListItemImportanceProps) => (
       todo.important ? (
         <StarSolid
           className="todo-importance"
-          onClick={() => {
+          onClick={e => {
+            e.stopPropagation();
             updateTodo({ variables: { id: todo.id, important: !todo.important } });
           }}
         />
       ) : (
         <StarLight
           className="todo-importance"
-          onClick={() => {
+          onClick={e => {
+            e.stopPropagation();
             updateTodo({ variables: { id: todo.id, important: !todo.important } });
           }}
         />

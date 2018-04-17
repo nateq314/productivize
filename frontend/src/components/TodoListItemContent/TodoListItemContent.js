@@ -39,14 +39,25 @@ function prettyDate(date: Date) {
 
 export default class TodoListItemContent extends React.Component<TodoListItemContentProps, TodoListItemContentState> {
   inputRef: HTMLInputElement;
+  contentWidthCalculatorRef: HTMLSpanElement;
   state = {
     content: this.props.todo.content
   };
 
   componentDidUpdate(prevProps: TodoListItemContentProps) {
     if (prevProps.todo !== this.props.todo) {
-      this.setState({ content: this.props.todo.content });
+      this.setState({ content: this.props.todo.content }, () => {
+        // because width depends on a previous rendering
+        // This will set it properly when the content is changed externally
+        // (from the details pane or from an incoming change via subscription)
+        this.forceUpdate();
+      });
     }
+  }
+
+  componentDidMount() {
+    // because width depends on a previous rendering
+    this.forceUpdate();
   }
 
   render() {
@@ -63,6 +74,16 @@ export default class TodoListItemContent extends React.Component<TodoListItemCon
               className={`edit-todo ${isEditing ? "isEditing" : ""}`}
               onSubmit={this.onSubmit.bind(this, updateTodo)}
             >
+              <div className="contentWidthCalculator">
+                <span
+                  className="content"
+                  ref={node => {
+                    if (node) this.contentWidthCalculatorRef = node;
+                  }}
+                >
+                  {this.state.content}
+                </span>
+              </div>
               <input
                 autoFocus
                 readOnly={isEditing ? false : true}
@@ -72,8 +93,12 @@ export default class TodoListItemContent extends React.Component<TodoListItemCon
                 }}
                 onBlur={this.reset}
                 onChange={this.onChange}
+                onClick={this.onClick}
                 onDoubleClick={this.onDoubleClick}
                 onKeyDown={this.onKeyDown}
+                style={{
+                  width: this.contentWidthCalculatorRef ? this.contentWidthCalculatorRef.offsetWidth + 10 + "px" : null
+                }}
               />
             </form>
           )}
@@ -84,16 +109,27 @@ export default class TodoListItemContent extends React.Component<TodoListItemCon
   }
 
   reset = () => {
-    this.setState({
-      content: this.props.todo.content
-    });
-    this.props.endEdit();
+    if (this.props.isEditing) {
+      this.setState({
+        content: this.props.todo.content
+      });
+      this.props.endEdit();
+    }
   };
 
   onChange = () => {
-    this.setState({
-      content: this.inputRef.value
-    });
+    this.setState(
+      {
+        content: this.inputRef.value
+      },
+      () => {
+        this.forceUpdate(); // to update the input width
+      }
+    );
+  };
+
+  onClick = (e: SyntheticEvent<HTMLInputElement>) => {
+    e.stopPropagation();
   };
 
   onDoubleClick = () => {

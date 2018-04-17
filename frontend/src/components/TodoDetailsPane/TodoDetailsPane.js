@@ -41,7 +41,12 @@ export default class TodoDetilsPane extends React.Component<TodoDetailsPaneProps
     return (
       <Mutation mutation={UPDATE_TODO_QUERY}>
         {(updateTodo, { data }) => (
-          <div id="TodoDetailsPane">
+          <div
+            id="TodoDetailsPane"
+            style={{
+              transition: this.props.todo ? "0.35s right" : "0.25s right"
+            }}
+          >
             <div id="detailsContainer">
               <div className={`content ${this.state.contentIsEditing ? "editing" : ""}`}>
                 <textarea

@@ -23,6 +23,7 @@ export type Todo = {
 
 type TodoListProps = {
   contextMenu: ContextMenuObjType,
+  clearContextMenu: () => void,
   setContextMenu: (SyntheticMouseEvent<HTMLLIElement>, number) => void,
   todos: Todo[],
   user: User,
@@ -32,24 +33,8 @@ type TodoListProps = {
 type TodoListState = {
   isEditing: ?number,
   filter: number,
-  selectedTodo: ?number,
-  filteredTodos: Todo[]
+  selectedTodo: ?number
 };
-
-function getFilteredTodos(todos: Todo[], filter: number): Todo[] {
-  return todos.filter(todo => {
-    switch (filter) {
-      case FILTER_UNCOMPLETED:
-        return !todo.completedOn;
-      case FILTER_COMPLETED:
-        return todo.completedOn;
-      case FILTER_ALL:
-        return true;
-      default:
-        return false;
-    }
-  });
-}
 
 class TodoList extends React.Component<TodoListProps, TodoListState> {
   constructor(props: TodoListProps) {
@@ -57,23 +42,13 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
     this.state = {
       isEditing: null,
       filter: FILTER_UNCOMPLETED,
-      selectedTodo: null,
-      filteredTodos: getFilteredTodos(this.props.todos, FILTER_UNCOMPLETED)
+      selectedTodo: null
     };
   }
 
   componentDidMount() {
     this.props.subscribeToTodoUpdates();
     document.addEventListener("keydown", this.documentOnKeydown.bind(this));
-  }
-
-  componentDidUpdate(prevProps: TodoListProps) {
-    // console.log("TodoList componentDidUpdate()");
-    if (prevProps.todos !== this.props.todos) {
-      this.setState({
-        filteredTodos: getFilteredTodos(this.props.todos, this.state.filter)
-      });
-    }
   }
 
   componentWillUnmount() {
@@ -84,6 +59,7 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
     const selectedTodo = this.state.selectedTodo
       ? this.props.todos.find(todo => todo.id === this.state.selectedTodo)
       : null;
+    console.log("render");
     return (
       <div id="TodoList" className={this.state.selectedTodo ? "todoSelected" : null}>
         <div id="subheader">
@@ -92,9 +68,22 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
         </div>
         <div id="todoListContainer">
           <ul className="todos">
-            {this.state.filteredTodos.length > 0 ? (
-              List(this.state.filteredTodos)
+            {this.props.todos.length > 0 ? (
+              List(this.props.todos)
+                .filter(todo => {
+                  switch (this.state.filter) {
+                    case FILTER_UNCOMPLETED:
+                      return !todo.completedOn;
+                    case FILTER_COMPLETED:
+                      return todo.completedOn;
+                    case FILTER_ALL:
+                      return true;
+                    default:
+                      return false;
+                  }
+                })
                 .sort((a, b) => (a.id < b.id ? -1 : 1))
+                // .sort((a, b) => (a.important ? -1 : 1))
                 .map((todo, idx) => (
                   <TodoListItem
                     key={todo.id}
@@ -120,7 +109,8 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
   }
 
   setSelectedTodo(todo: number, e: any) {
-    if (/(DIV|LI)/.test(e.target.nodeName)) {
+    console.log("setSelectedTodo()");
+    if (/(DIV|LI)/.test(e.target.nodeName) && !this.props.contextMenu) {
       const { selectedTodo } = this.state;
       this.setState({
         selectedTodo: selectedTodo === todo ? null : todo
@@ -129,18 +119,19 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
   }
 
   setEditingStatus(todoID: ?number) {
+    console.log("setEditingStatus()");
     this.setState({
       isEditing: todoID
     });
   }
 
   filterOnChange(filter: number) {
+    console.log("filterOnChange()");
     const selectedTodo = this.state.selectedTodo
       ? this.props.todos.find(todo => todo.id === this.state.selectedTodo)
       : null;
     const newState: Object = {
-      filter,
-      filteredTodos: getFilteredTodos(this.props.todos, filter)
+      filter
     };
     if (
       selectedTodo &&
@@ -153,10 +144,15 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
   }
 
   documentOnKeydown(e: KeyboardEvent) {
+    console.log("documentOnKeydown()");
     if (e.keyCode === 27) {
-      this.setState({
-        selectedTodo: null
-      });
+      if (this.props.contextMenu) {
+        this.props.clearContextMenu();
+      } else if (this.state.selectedTodo) {
+        this.setState({
+          selectedTodo: null
+        });
+      }
     }
   }
 }

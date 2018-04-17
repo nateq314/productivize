@@ -57,11 +57,11 @@ export default class App extends React.Component<{}, AppState> {
       return (
         // NON-AUTHENTICATED ROUTES
         <Router>
-          <div>
+          <Switch>
             <Route exact={true} path="/" render={() => <Login onSubmit={this.loginOnSubmit.bind(this)} />} />
             <Route path="/register" render={() => <Register onRegister={this.registerOnSubmit.bind(this)} />} />
             <Route render={() => <Redirect to="/" />} />
-          </div>
+          </Switch>
         </Router>
       );
     return (
@@ -94,6 +94,7 @@ export default class App extends React.Component<{}, AppState> {
                         <Home
                           user={user}
                           contextMenu={this.state.contextMenu}
+                          clearContextMenu={this.clearContextMenu}
                           setContextMenu={this.setContextMenu.bind(this)}
                         />
                       )}
@@ -149,15 +150,23 @@ export default class App extends React.Component<{}, AppState> {
   logout() {
     localStorage.clear();
     this.setState({ user_id: null });
-    // this.userUpdateUnsubscribe();
+    this.userUpdateUnsubscribe();
   }
 
   appOnClick(e: SyntheticMouseEvent<HTMLDivElement>) {
     // console.log("appOnClick()");
+    if (this.state.contextMenu) {
+      this.setState({
+        contextMenu: null
+      });
+    }
+  }
+
+  clearContextMenu = () => {
     this.setState({
       contextMenu: null
     });
-  }
+  };
 
   setContextMenu(e: SyntheticMouseEvent<HTMLLIElement>, todoID: number) {
     e.preventDefault();
@@ -165,8 +174,8 @@ export default class App extends React.Component<{}, AppState> {
     this.setState({
       contextMenu: {
         todoID: todoID,
-        x: e.clientX < screenWidth - 145 ? e.clientX : e.clientX - 145,
-        y: e.clientY - 5
+        x: e.clientX < screenWidth - 145 ? e.clientX + 5 : e.clientX - 145,
+        y: e.clientY - 160
       }
     });
   }

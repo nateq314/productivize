@@ -7,19 +7,23 @@
     }
   }
 
-  &.important {
-    form.edit-todo input {
-      color: #ff5f00;
-    }
-  }
-
   form.edit-todo {
     display: inline-block;
     vertical-align: top;
 
+    .contentWidthCalculator {
+      visibility: hidden;
+      height: 0px;
+
+      .content {
+        font-size: 1em;
+        box-sizing: border-box;
+        font-family: Arial;
+      }
+    }
     input {
       font-size: 1em;
-      width: 600px;
+      // width: 600px;
       border: none;
       padding: 7px 8px;
       background-color: inherit;
@@ -27,6 +31,7 @@
       caret-color: transparent;
       border-radius: 4px;
       transition: 0.5s background-color;
+      font-family: Arial;
     }
 
     &.isEditing input {

@@ -9,7 +9,7 @@
   border-top: 1px solid #333;
   position: fixed;
   right: -401px;
-  transition: 1s right;
+  transition: 0.5s right;
 
   #detailsContainer {
     width: 100%;
@@ -32,6 +32,10 @@
     caret-color: #2b2d3e;
     cursor: pointer;
     transition: 0.5s background-color;
+
+    &:focus {
+      outline: none;
+    }
 
     &:hover {
       background-color: rgba(#000, 0.25);

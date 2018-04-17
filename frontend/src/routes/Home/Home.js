@@ -11,6 +11,7 @@ import "./Home.css";
 type HomeProps = {
   user: User,
   contextMenu: ContextMenuObjType,
+  clearContextMenu: () => void,
   setContextMenu: (SyntheticMouseEvent<HTMLLIElement>, number) => void
 };
 
@@ -35,7 +36,7 @@ type TodosUpdateSubscriptionResponse = {
   }
 };
 
-export default ({ user, contextMenu, setContextMenu }: HomeProps) => (
+export default ({ user, contextMenu, clearContextMenu, setContextMenu }: HomeProps) => (
   <div id="Home">
     <Query query={FETCH_TODOS_QUERY} variables={{ user_id: user.id }}>
       {({ data, error, loading, subscribeToMore }: QueryChildrenProps) => {
@@ -44,6 +45,7 @@ export default ({ user, contextMenu, setContextMenu }: HomeProps) => (
         return (
           <TodoList
             contextMenu={contextMenu}
+            clearContextMenu={clearContextMenu}
             setContextMenu={setContextMenu}
             todos={data.todos}
             user={user}

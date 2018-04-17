@@ -13,6 +13,14 @@
     background-color: rgba(255, 255, 255, 0.05);
   }
 
+  &.important {
+    background-color: rgba(#ff3400, 0.25);
+  }
+
+  &.selected.important {
+    background-color: rgba(#ff3400, 0.35);
+  }
+
   .todo-option-icons {
     flex-grow: 1;
     display: flex;
