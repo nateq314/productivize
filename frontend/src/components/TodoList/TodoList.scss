@@ -1,10 +1,6 @@
+@import "../../colors.scss";
+
 #TodoList {
-  display: grid;
-  grid-template-columns: 100%;
-  grid-template-rows: 100px 1fr;
-  grid-template-areas:
-    "subheader"
-    "todoListContainer";
   height: 100%;
 
   &.todoSelected {
@@ -13,13 +9,15 @@
     }
 
     #TodoDetailsPane {
-      width: 400px;
-      display: unset;
+      right: 0px;
     }
   }
 
   #todoListContainer {
-    grid-area: todoListContainer;
+    position: absolute;
+    left: 0px;
+    top: 146px;
+    width: 100%;
   }
 
   ul.todos {
@@ -28,7 +26,7 @@
     margin: 0px;
     width: 100%;
     float: left;
-    // transition: 0.5s width;
+    transition: 1s width;
   }
 
   #subheader {
@@ -36,6 +34,11 @@
     justify-content: space-between;
     align-items: center;
     padding: 30px 0px 30px 0px;
+    margin-top: 52px;
+    position: fixed;
+    width: 100%;
+    z-index: 2;
+    background-color: $background-color;
   }
 
   #no-todos {

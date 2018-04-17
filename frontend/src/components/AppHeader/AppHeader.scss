@@ -5,7 +5,12 @@
   align-items: center;
   justify-content: space-between;
   background-color: #28212b;
-  grid-area: AppHeader;
+  padding: 18px 30px 15px 30px;
+  position: fixed;
+  width: 100%;
+  box-sizing: border-box;
+  top: 0px;
+  z-index: 2;
 
   h1 {
     margin: 0px;

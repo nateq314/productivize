@@ -3,12 +3,13 @@
 #TodoDetailsPane {
   background-color: rgba(255, 255, 255, 0.05);
   overflow-x: hidden;
-  width: 0px;
-  float: left;
+  width: 400px;
   height: calc(100% - 1px);
   border-left: 1px solid #333;
   border-top: 1px solid #333;
-  display: none;
+  position: fixed;
+  right: -401px;
+  transition: 1s right;
 
   #detailsContainer {
     width: 100%;

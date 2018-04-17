@@ -9,7 +9,7 @@ import "./TodoDetailsPane.css";
 
 type TodoDetailsPaneProps = {
   // clearSelectedTodo: () => void,
-  todo: Todo
+  todo: ?Todo
 };
 
 type TodoDetailsPaneState = {
@@ -21,9 +21,9 @@ type TodoDetailsPaneState = {
 
 export default class TodoDetilsPane extends React.Component<TodoDetailsPaneProps, TodoDetailsPaneState> {
   state = {
-    content: this.props.todo.content,
+    content: this.props.todo && this.props.todo.content,
     contentIsEditing: false,
-    description: this.props.todo.description,
+    description: this.props.todo && this.props.todo.description,
     descriptionIsEditing: false
   };
 
@@ -75,10 +75,12 @@ export default class TodoDetilsPane extends React.Component<TodoDetailsPaneProps
   }
 
   onBlur = (name: string) => () => {
-    this.setState({
-      [name]: this.props.todo[name],
-      [name + "IsEditing"]: false
-    });
+    if (this.props.todo) {
+      this.setState({
+        [name]: this.props.todo[name],
+        [name + "IsEditing"]: false
+      });
+    }
   };
 
   onChange = (name: string) => (e: SyntheticKeyboardEvent<HTMLTextAreaElement>) => {
@@ -99,37 +101,39 @@ export default class TodoDetilsPane extends React.Component<TodoDetailsPaneProps
     if (this.state[name + "IsEditing"]) {
       e.nativeEvent.stopImmediatePropagation();
     }
-    if (e.keyCode === 13) {
-      if (e.altKey || e.metaKey || !allowNewline) {
-        e.preventDefault();
-        updateTodo({
-          variables: {
-            id: this.props.todo.id,
-            [name]: this.state[name]
+    if (this.props.todo) {
+      if (e.keyCode === 13) {
+        if (e.altKey || e.metaKey || !allowNewline) {
+          updateTodo({
+            variables: {
+              id: this.props.todo.id,
+              [name]: this.state[name]
+            }
+          });
+          this.setState({
+            [name + "IsEditing"]: false
+          });
+          e.preventDefault();
+        } else {
+          if (!allowNewline) {
+            const taElement = e.currentTarget;
+            const idx = taElement.selectionStart;
+            this.setState(
+              {
+                [name]: this.state[name].slice(0, idx) + "\r\n" + this.state[name].slice(idx)
+              },
+              () => {
+                taElement.selectionStart = taElement.selectionEnd = idx + 1;
+              }
+            );
           }
-        });
+        }
+      } else if (e.keyCode === 27) {
         this.setState({
+          [name]: this.props.todo[name],
           [name + "IsEditing"]: false
         });
-      } else {
-        if (!allowNewline) {
-          const taElement = e.currentTarget;
-          const idx = taElement.selectionStart;
-          this.setState(
-            {
-              [name]: this.state[name].slice(0, idx) + "\r\n" + this.state[name].slice(idx)
-            },
-            () => {
-              taElement.selectionStart = taElement.selectionEnd = idx + 1;
-            }
-          );
-        }
       }
-    } else if (e.keyCode === 27) {
-      this.setState({
-        [name]: this.props.todo[name],
-        [name + "IsEditing"]: false
-      });
     }
   };
 }

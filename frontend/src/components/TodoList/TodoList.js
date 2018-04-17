@@ -112,7 +112,7 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
               <h3 id="no-todos">No to-dos to display. Get started by entering one in the above input.</h3>
             )}
           </ul>
-          {selectedTodo && <TodoDetailsPane todo={selectedTodo} />}
+          <TodoDetailsPane todo={selectedTodo} />
           {this.props.contextMenu && <ContextMenu {...this.props.contextMenu} />}
         </div>
       </div>
