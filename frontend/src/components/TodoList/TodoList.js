@@ -8,6 +8,7 @@ import TodoFilter, { FILTER_ALL, FILTER_UNCOMPLETED, FILTER_COMPLETED } from "..
 import ContextMenu from "../ContextMenu/ContextMenu";
 import { type User, type ContextMenuObjType } from "../../App";
 import TodoDetailsPane from "../TodoDetailsPane/TodoDetailsPane";
+import { log } from "../../debug";
 
 import "./TodoList.css";
 
@@ -59,7 +60,7 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
     const selectedTodo = this.state.selectedTodo
       ? this.props.todos.find(todo => todo.id === this.state.selectedTodo)
       : null;
-    console.log("render");
+    log("render");
     return (
       <div id="TodoList" className={this.state.selectedTodo ? "todoSelected" : null}>
         <div id="subheader">
@@ -109,7 +110,7 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
   }
 
   setSelectedTodo(todo: number, e: any) {
-    console.log("setSelectedTodo()");
+    log("setSelectedTodo()");
     if (/(DIV|LI)/.test(e.target.nodeName) && !this.props.contextMenu) {
       const { selectedTodo } = this.state;
       this.setState({
@@ -119,14 +120,14 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
   }
 
   setEditingStatus(todoID: ?number) {
-    console.log("setEditingStatus()");
+    log("setEditingStatus()");
     this.setState({
       isEditing: todoID
     });
   }
 
   filterOnChange(filter: number) {
-    console.log("filterOnChange()");
+    log("filterOnChange()");
     const selectedTodo = this.state.selectedTodo
       ? this.props.todos.find(todo => todo.id === this.state.selectedTodo)
       : null;
@@ -144,7 +145,7 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
   }
 
   documentOnKeydown(e: KeyboardEvent) {
-    console.log("documentOnKeydown()");
+    log("documentOnKeydown()");
     if (e.keyCode === 27) {
       if (this.props.contextMenu) {
         this.props.clearContextMenu();

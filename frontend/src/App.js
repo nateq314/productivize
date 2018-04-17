@@ -11,6 +11,7 @@ import { ApolloProvider, Query } from "react-apollo";
 import { getApolloClient } from "./apollo";
 import { FETCH_USER_QUERY, UPDATE_USER_SUBSCRIPTION } from "./queries";
 import { host, port } from "./apollo";
+import { log } from "./debug";
 
 import "./App.css";
 
@@ -46,7 +47,7 @@ export default class App extends React.Component<{}, AppState> {
   }
 
   componentWillUnmount() {
-    console.log("componentWillUnmount()");
+    log("componentWillUnmount()");
     if (this.userUpdateUnsubscribe) {
       this.userUpdateUnsubscribe();
     }
@@ -112,7 +113,7 @@ export default class App extends React.Component<{}, AppState> {
   }
 
   async loginOnSubmit(email: string, password: string) {
-    console.log("loginOnSubmit()");
+    log("loginOnSubmit()");
     const loginResponse = await fetch(`http://${host}:${port}/api/auth/login`, {
       headers: {
         "Content-Type": "application/json"
@@ -130,7 +131,7 @@ export default class App extends React.Component<{}, AppState> {
   }
 
   async registerOnSubmit(first_name: string, last_name: string, email: string, password: string) {
-    console.log("registerOnSubmit()");
+    log("registerOnSubmit()");
     const response = await fetch(`http://${host}:${port}/api/auth/register`, {
       headers: {
         "Content-Type": "application/json"
@@ -154,7 +155,7 @@ export default class App extends React.Component<{}, AppState> {
   }
 
   appOnClick(e: SyntheticMouseEvent<HTMLDivElement>) {
-    // console.log("appOnClick()");
+    // log("appOnClick()");
     if (this.state.contextMenu) {
       this.setState({
         contextMenu: null
