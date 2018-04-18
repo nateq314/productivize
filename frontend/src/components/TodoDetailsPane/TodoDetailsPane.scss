@@ -4,12 +4,11 @@
   background-color: rgba(255, 255, 255, 0.05);
   overflow-x: hidden;
   width: 400px;
-  height: calc(100% - 1px);
-  border-left: 1px solid #333;
-  border-top: 1px solid #333;
+  height: 100%;
   position: fixed;
-  right: -401px;
+  right: -400px;
   transition: 0.5s right;
+  border-top-left-radius: 6px;
 
   #detailsContainer {
     width: 100%;
@@ -70,6 +69,11 @@
       display: inline-block;
       opacity: 0;
       transition: 0.25s opacity;
+    }
+    textarea {
+      font-size: 0.9em;
+      line-height: 20px;
+      padding: 5px 10px;
     }
   }
 

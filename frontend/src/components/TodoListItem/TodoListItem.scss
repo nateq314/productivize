@@ -1,16 +1,18 @@
 .TodoListItem {
   height: 35px;
-  border-bottom: 1px solid #333;
-  padding: 10px 30px 10px 30px;
   display: flex;
   align-items: center;
+  margin: 15px 20px;
+  background-color: #202020;
+  border-radius: 6px;
+  padding: 6px 30px;
 
   &:first-of-type {
-    border-top: 1px solid #333;
+    margin-top: 0px;
   }
 
   &.selected {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: #303030;
   }
 
   &.important {

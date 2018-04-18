@@ -28,6 +28,7 @@ const TodoInput = ({ user }: TodoInputProps) => {
           }}
         >
           <input
+            autoFocus
             id="todoInput"
             ref={node => {
               input = node;

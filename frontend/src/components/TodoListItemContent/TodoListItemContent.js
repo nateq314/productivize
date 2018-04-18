@@ -85,7 +85,6 @@ export default class TodoListItemContent extends React.Component<TodoListItemCon
                 </span>
               </div>
               <input
-                autoFocus
                 readOnly={isEditing ? false : true}
                 value={this.state.content}
                 ref={node => {
