@@ -4,7 +4,6 @@ import React from "react";
 import type { Todo } from "../TodoList/TodoList";
 import { Mutation } from "react-apollo";
 import { UPDATE_TODO_QUERY } from "../../queries";
-import { log } from "../../debug";
 
 import { Subject } from "rxjs";
 import { debounceTime } from "rxjs/operators";
@@ -31,7 +30,6 @@ export default class TodoDetilsPane extends React.Component<TodoDetailsPaneProps
     descriptionIsEditing: false,
     mouseIsOver: false
   };
-  contentRef: ?HTMLTextAreaElement;
   inputObserver$: Subject;
 
   componentDidUpdate(prevProps: TodoDetailsPaneProps) {
@@ -74,9 +72,6 @@ export default class TodoDetilsPane extends React.Component<TodoDetailsPaneProps
               <div id="detailsContainer">
                 <div className={`content ${this.state.contentIsEditing ? "editing" : ""}`}>
                   <textarea
-                    ref={node => {
-                      this.contentRef = node;
-                    }}
                     readOnly={!this.state.contentIsEditing}
                     value={this.state.content || ""}
                     onBlur={this.onBlur("content")}
@@ -160,19 +155,6 @@ export default class TodoDetilsPane extends React.Component<TodoDetailsPaneProps
             [name + "IsEditing"]: false
           });
           e.preventDefault();
-        } else {
-          if (!allowNewline) {
-            const taElement = e.currentTarget;
-            const idx = taElement.selectionStart;
-            this.setState(
-              {
-                [name]: this.state[name].slice(0, idx) + "\r\n" + this.state[name].slice(idx)
-              },
-              () => {
-                taElement.selectionStart = taElement.selectionEnd = idx + 1;
-              }
-            );
-          }
         }
       } else if (e.keyCode === 27) {
         if (name === "content") {
