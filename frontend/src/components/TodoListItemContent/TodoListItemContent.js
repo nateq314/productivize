@@ -93,7 +93,6 @@ export default class TodoListItemContent extends React.Component<TodoListItemCon
                 onBlur={this.reset}
                 onChange={this.onChange}
                 onClick={this.onClick}
-                onDoubleClick={this.onDoubleClick}
                 onKeyDown={this.onKeyDown}
                 style={{
                   width: this.contentWidthCalculatorRef ? this.contentWidthCalculatorRef.offsetWidth + 10 + "px" : null
@@ -129,9 +128,6 @@ export default class TodoListItemContent extends React.Component<TodoListItemCon
 
   onClick = (e: SyntheticEvent<HTMLInputElement>) => {
     e.stopPropagation();
-  };
-
-  onDoubleClick = () => {
     if (!this.props.todo.completedOn && !this.props.isEditing) {
       focusCaret(this.inputRef);
       this.props.beginEdit();

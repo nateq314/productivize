@@ -1,30 +1,30 @@
-const log = msg => {
+const log = (msg, ...args) => {
   if (process.env.NODE_ENV !== "production") {
-    console.log(msg);
+    console.log(msg, ...args);
   }
 };
 
-const info = msg => {
+const info = (msg, ...args) => {
   if (process.env.NODE_ENV !== "production") {
-    console.info(msg);
+    console.info(msg, ...args);
   }
 };
 
-const warn = msg => {
+const warn = (msg, ...args) => {
   if (process.env.NODE_ENV !== "production") {
-    console.warn(msg);
+    console.warn(msg, ...args);
   }
 };
 
-const error = msg => {
+const error = (msg, ...args) => {
   if (process.env.NODE_ENV !== "production") {
-    console.error(msg);
+    console.error(msg, ...args);
   }
 };
 
-const table = data => {
+const table = (data, ...args) => {
   if (process.env.NODE_ENV !== "production") {
-    console.table(data);
+    console.table(data, ...args);
   }
 };
 

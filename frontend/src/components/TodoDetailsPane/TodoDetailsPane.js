@@ -4,11 +4,14 @@ import React from "react";
 import type { Todo } from "../TodoList/TodoList";
 import { Mutation } from "react-apollo";
 import { UPDATE_TODO_QUERY } from "../../queries";
+import { log } from "../../debug";
+
+import { Subject } from "rxjs";
+import { debounceTime } from "rxjs/operators";
 
 import "./TodoDetailsPane.css";
 
 type TodoDetailsPaneProps = {
-  // clearSelectedTodo: () => void,
   todo: ?Todo
 };
 
@@ -16,7 +19,8 @@ type TodoDetailsPaneState = {
   content: ?string,
   contentIsEditing: boolean,
   description: ?string,
-  descriptionIsEditing: boolean
+  descriptionIsEditing: boolean,
+  mouseIsOver: boolean
 };
 
 export default class TodoDetilsPane extends React.Component<TodoDetailsPaneProps, TodoDetailsPaneState> {
@@ -24,8 +28,11 @@ export default class TodoDetilsPane extends React.Component<TodoDetailsPaneProps
     content: this.props.todo && this.props.todo.content,
     contentIsEditing: false,
     description: this.props.todo && this.props.todo.description,
-    descriptionIsEditing: false
+    descriptionIsEditing: false,
+    mouseIsOver: false
   };
+  contentRef: ?HTMLTextAreaElement;
+  inputObserver$: Subject;
 
   componentDidUpdate(prevProps: TodoDetailsPaneProps) {
     if (this.props.todo && prevProps.todo !== this.props.todo) {
@@ -37,44 +44,74 @@ export default class TodoDetilsPane extends React.Component<TodoDetailsPaneProps
   }
 
   render() {
-    // const { todo } = this.props;
+    const { todo } = this.props;
     return (
       <Mutation mutation={UPDATE_TODO_QUERY}>
-        {(updateTodo, { data }) => (
-          <div
-            id="TodoDetailsPane"
-            style={{
-              transition: this.props.todo ? "0.35s right" : "0.25s right"
-            }}
-          >
-            <div id="detailsContainer">
-              <div className={`content ${this.state.contentIsEditing ? "editing" : ""}`}>
-                <textarea
-                  readOnly={!this.state.contentIsEditing}
-                  value={this.state.content || ""}
-                  onBlur={this.onBlur("content")}
-                  onChange={this.onChange("content")}
-                  onClick={this.onClick("content")}
-                  onKeyDown={this.onKeyDown("content", updateTodo, false)}
-                />
-              </div>
-              <div className={`description ${this.state.descriptionIsEditing ? "editing" : ""}`}>
-                <label>DESCRIPTION</label>
-                <span className={`smallprint`}>(Ctrl+Enter to submit)</span>
-                <textarea
-                  className={this.state.descriptionIsEditing ? "editing" : ""}
-                  readOnly={!this.state.descriptionIsEditing}
-                  value={this.state.description || ""}
-                  onBlur={this.onBlur("description")}
-                  onChange={this.onChange("description")}
-                  onClick={this.onClick("description")}
-                  onKeyDown={this.onKeyDown("description", updateTodo)}
-                  placeholder="(Enter to-do description here)"
-                />
+        {(updateTodo, { data }) => {
+          if (!this.inputObserver$) {
+            this.inputObserver$ = new Subject();
+            this.inputObserver$.pipe(debounceTime(500)).subscribe(description => {
+              if (this.props.todo) {
+                updateTodo({
+                  variables: {
+                    id: this.props.todo.id,
+                    description
+                  }
+                });
+              }
+            });
+          }
+          return (
+            <div
+              id="TodoDetailsPane"
+              className={todo && todo.important ? "important" : ""}
+              style={{
+                transition: todo ? "0.4s right" : "0.25s right"
+              }}
+              onMouseOver={this.onMouseOver}
+              onMouseOut={this.onMouseOut}
+            >
+              <div id="detailsContainer">
+                <div className={`content ${this.state.contentIsEditing ? "editing" : ""}`}>
+                  <textarea
+                    ref={node => {
+                      this.contentRef = node;
+                    }}
+                    readOnly={!this.state.contentIsEditing}
+                    value={this.state.content || ""}
+                    onBlur={this.onBlur("content")}
+                    onChange={this.onChange("content")}
+                    onClick={this.onClick("content")}
+                    onKeyDown={this.onKeyDown("content", updateTodo, false)}
+                    style={{
+                      transition: this.state.mouseIsOver ? "0.5s background-color" : "none"
+                    }}
+                  />
+                </div>
+                <div className={`description ${this.state.descriptionIsEditing ? "editing" : ""}`}>
+                  <label>DESCRIPTION</label>
+                  {/* <span className={`smallprint`}>(Ctrl+Enter to submit)</span> */}
+                  <textarea
+                    className={this.state.descriptionIsEditing ? "editing" : ""}
+                    readOnly={!this.state.descriptionIsEditing}
+                    value={this.state.description || ""}
+                    onBlur={this.onBlur("description")}
+                    onChange={(e: SyntheticKeyboardEvent<HTMLTextAreaElement>) => {
+                      this.inputObserver$.next(e.currentTarget.value);
+                      this.onChange("description")(e);
+                    }}
+                    onClick={this.onClick("description")}
+                    onKeyDown={this.onKeyDown("description", updateTodo)}
+                    placeholder="(Enter to-do description here)"
+                    style={{
+                      transition: this.state.mouseIsOver ? "0.5s background-color" : "none"
+                    }}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          );
+        }}
       </Mutation>
     );
   }
@@ -109,12 +146,16 @@ export default class TodoDetilsPane extends React.Component<TodoDetailsPaneProps
     if (this.props.todo) {
       if (e.keyCode === 13) {
         if (e.altKey || e.metaKey || !allowNewline) {
-          updateTodo({
-            variables: {
-              id: this.props.todo.id,
-              [name]: this.state[name]
-            }
-          });
+          if (name === "content") {
+            // only update on [Enter] for todo content. Todo description update is controlled by this.inputObserver$
+            // (basically updates on keypress)
+            updateTodo({
+              variables: {
+                id: this.props.todo.id,
+                content: this.state.content
+              }
+            });
+          }
           this.setState({
             [name + "IsEditing"]: false
           });
@@ -134,11 +175,34 @@ export default class TodoDetilsPane extends React.Component<TodoDetailsPaneProps
           }
         }
       } else if (e.keyCode === 27) {
-        this.setState({
-          [name]: this.props.todo[name],
-          [name + "IsEditing"]: false
-        });
+        if (name === "content") {
+          this.setState({
+            content: this.props.todo.content,
+            contentIsEditing: false
+          });
+        } else {
+          this.setState({
+            descriptionIsEditing: false
+          });
+        }
       }
+    }
+  };
+
+  onMouseOver = (e: SyntheticMouseEvent<HTMLDivElement>) => {
+    if (!this.state.mouseIsOver) {
+      this.setState({
+        mouseIsOver: true
+      });
+    }
+  };
+
+  onMouseOut = (e: SyntheticMouseEvent<HTMLDivElement>) => {
+    const relatedTarget: any = e.relatedTarget;
+    if (relatedTarget === undefined || relatedTarget.className === "todos" || relatedTarget.id === "App") {
+      this.setState({
+        mouseIsOver: false
+      });
     }
   };
 }

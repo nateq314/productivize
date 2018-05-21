@@ -3,24 +3,28 @@
   display: flex;
   align-items: center;
   margin: 15px 20px;
-  background-color: #202020;
+  background-color: #292929;
   border-radius: 6px;
   padding: 6px 30px;
+  cursor: pointer;
+  transition: 0.25s background-color;
 
   &:first-of-type {
     margin-top: 0px;
   }
 
+  // &:hover,
   &.selected {
-    background-color: #303030;
+    background-color: #404040;
   }
 
   &.important {
-    background-color: rgba(#ff3400, 0.25);
+    background-color: #450f30;
   }
 
+  // &:hover.important,
   &.selected.important {
-    background-color: rgba(#ff3400, 0.35);
+    background-color: #5e0c3f;
   }
 
   .todo-option-icons {

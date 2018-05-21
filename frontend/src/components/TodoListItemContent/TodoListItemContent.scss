@@ -28,19 +28,24 @@
     }
     input {
       font-size: 1em;
-      // width: 600px;
-      border: none;
+      border: 1px solid rgba(255, 255, 255, 0);
       padding: 7px 8px;
       background-color: inherit;
       color: inherit;
       caret-color: transparent;
       border-radius: 4px;
-      transition: 0.5s background-color;
+      transition: 0.5s background-color, 0.25s border-color;
       font-family: Arial;
+      line-height: 16px;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.3);
+      }
     }
 
     &.isEditing input {
-      background-color: rgba(255, 255, 255, 0.07);
+      background-color: rgba(0, 0, 0, 0.3);
+      border-color: rgba(255, 255, 255, 0.2);
       caret-color: #fff;
     }
   }

@@ -60,7 +60,6 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
     const selectedTodo = this.state.selectedTodo
       ? this.props.todos.find(todo => todo.id === this.state.selectedTodo)
       : null;
-    log("render");
     return (
       <div id="TodoList" className={this.state.selectedTodo ? "todoSelected" : null}>
         <div id="subheader">
@@ -145,7 +144,7 @@ class TodoList extends React.Component<TodoListProps, TodoListState> {
   }
 
   documentOnKeydown(e: KeyboardEvent) {
-    log("documentOnKeydown()");
+    // log("documentOnKeydown()");
     if (e.keyCode === 27) {
       if (this.props.contextMenu) {
         this.props.clearContextMenu();

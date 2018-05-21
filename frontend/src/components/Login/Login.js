@@ -29,6 +29,7 @@ export default ({ onSubmit }: LoginProps) => (
           }}
           placeholder="Email address"
           defaultValue=""
+          autoFocus
         />
       </div>
       <div className="form-group">
