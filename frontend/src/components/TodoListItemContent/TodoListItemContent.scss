@@ -23,7 +23,6 @@
       .content {
         font-size: 1em;
         box-sizing: border-box;
-        font-family: Arial;
       }
     }
     input {
@@ -35,7 +34,6 @@
       caret-color: transparent;
       border-radius: 4px;
       transition: 0.5s background-color, 0.25s border-color;
-      font-family: Arial;
       line-height: 16px;
 
       &:hover {

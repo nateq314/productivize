@@ -1,7 +1,7 @@
 @import "../../colors.scss";
 
 #TodoDetailsPane {
-  background-color: #292929;
+  background-color: #202020;
   overflow-x: hidden;
   width: 400px;
   height: 100%;
@@ -12,7 +12,7 @@
 
   &.important {
     .content {
-      background-color: #5e0c3f;
+      background-color: #540a38;
     }
   }
 
@@ -26,7 +26,6 @@
     border: 1px solid rgba(#fff, 0);
     padding: 10px;
     font-size: 1.1em;
-    font-family: sans-serif;
     width: 94%;
     height: 200px;
     background-color: inherit;
@@ -43,7 +42,7 @@
     }
 
     &:hover {
-      background-color: rgba(#000, 0.25);
+      background-color: rgba(#000, 0.2);
     }
   }
 
@@ -55,6 +54,8 @@
     textarea {
       height: 50px;
       font-weight: bold;
+      color: #fff;
+      font-family: Arial, Helvetica, sans-serif;
     }
   }
 
@@ -90,7 +91,7 @@
       opacity: 1;
     }
     textarea {
-      background-color: rgba(#000, 0.25);
+      background-color: rgba(#000, 0.3);
       caret-color: unset;
       cursor: text;
       border-color: rgba(#fff, 0.2);

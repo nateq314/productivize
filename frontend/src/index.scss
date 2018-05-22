@@ -1,4 +1,5 @@
 @import "./colors.scss";
+@import url("https://fonts.googleapis.com/css?family=Lato:300");
 
 body {
   margin: 0;
@@ -6,4 +7,11 @@ body {
   font-family: sans-serif;
   background-color: $background-color;
   color: #eee;
+}
+
+body,
+input,
+textarea {
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
 }
