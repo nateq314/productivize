@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   margin: 15px 20px;
-  background-color: #232323;
+  background-color: rgba(74, 74, 77, 0.3);
   border-radius: 6px;
   padding: 6px 20px;
   cursor: pointer;
@@ -14,24 +14,25 @@
   }
 
   &:hover {
-    background-color: #303030;
+    background-color: rgba(74, 74, 77, 0.6);
   }
 
   &.selected {
-    background-color: #404040;
+    background-color: rgba(74, 74, 77, 1);
+    color: #dbdbdb;
   }
 
   &.important {
-    background-color: #340622;
+    background-color: rgba(103, 12, 68, 0.6);
   }
 
   &.important:hover {
-    background-color: #46072e;
+    background-color: rgba(103, 12, 68, 0.8);
   }
 
   // &:hover.important,
   &.selected.important {
-    background-color: #540a38;
+    background-color: rgba(103, 12, 68, 1);
   }
 
   .todo-option-icons {

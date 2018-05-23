@@ -19,7 +19,7 @@ export default ({ user, logout }: AppHeaderProps) => (
         {user.first_name} {user.last_name}
       </Link>
       <Link id="home" to="/" className="menuItem">
-        Home
+        My Todos
       </Link>
       <a id="logout" onClick={logout} className="menuItem">
         Log Out
