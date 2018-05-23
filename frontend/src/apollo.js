@@ -8,6 +8,8 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 import { getMainDefinition } from "apollo-utilities";
 
 const isProd = process.env.NODE_ENV === "production";
+export const httpProtocol = isProd ? "https" : "http";
+const wsProtocol = isProd ? "wss" : "ws";
 export const host = isProd ? "productivize.net" : "localhost";
 export const port = "3000";
 
@@ -23,11 +25,11 @@ export function getApolloClient(token: ?string) {
     });
 
     const httpLink = new HttpLink({
-      uri: `http://${host}:${port}/api/graphql`
+      uri: `${httpProtocol}://${host}:${port}/api/graphql`
     });
 
     const wsLink = new WebSocketLink({
-      uri: `ws://${host}:3000/subscriptions`,
+      uri: `${wsProtocol}://${host}:3000/subscriptions`,
       options: {
         reconnect: true
       }

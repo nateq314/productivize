@@ -6,3 +6,7 @@ db-dev
 .DS_Store
 *.css
 *.log
+secrets
+web.env
+api.env
+certs

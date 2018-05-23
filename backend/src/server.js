@@ -1,19 +1,38 @@
 import express from "express";
 import bodyParser from "body-parser";
+import fs from "fs";
 import { graphqlExpress, graphiqlExpress } from "apollo-server-express";
 import schema from "./schema";
 import AuthController from "./auth/AuthController";
 import passport from "passport";
 import cors from "cors";
 import { execute, subscribe } from "graphql";
-import { createServer } from "http";
+import http from "http";
+import https from "https";
 import { SubscriptionServer } from "subscriptions-transport-ws";
+import path from "path";
+import process from "process";
 
 require("./passport");
 
+const isProd = process.env.NODE_ENV === "production";
 const PORT = 3000;
 
 const app = express();
+
+function getFullPath(filename) {
+  return path.join(__dirname, "../", "certs", filename);
+}
+
+const https_options = {
+  key: fs.readFileSync(getFullPath("productivize.key")),
+  cert: fs.readFileSync(getFullPath("productivize_net.crt")),
+  ca: [
+    fs.readFileSync(getFullPath("COMODORSADomainValidationSecureServerCA.crt")),
+    fs.readFileSync(getFullPath("COMODORSAAddTrustCA.crt"))
+  ],
+  passphrase: process.env.SSL_CERT_PW
+};
 
 app.use(cors());
 app.use(
@@ -33,9 +52,9 @@ app.use(
 );
 app.use("/api/auth", bodyParser.json(), AuthController);
 
-const ws = createServer(app);
+const ws = isProd ? https.createServer(https_options, app) : http.createServer(app);
 ws.listen(PORT, () => {
-  console.log(`GraphQL Server is now running on http://localhost:${PORT}`);
+  console.log(`GraphQL Server is now running on port ${PORT}`);
 
   new SubscriptionServer(
     {

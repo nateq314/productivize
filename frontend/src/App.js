@@ -10,7 +10,7 @@ import Register from "./routes/Register/Register";
 import { ApolloProvider, Query } from "react-apollo";
 import { getApolloClient } from "./apollo";
 import { FETCH_USER_QUERY, UPDATE_USER_SUBSCRIPTION } from "./queries";
-import { host, port } from "./apollo";
+import { httpProtocol, host, port } from "./apollo";
 import { log } from "./debug";
 
 import "./App.css";
@@ -114,7 +114,7 @@ export default class App extends React.Component<{}, AppState> {
 
   async loginOnSubmit(email: string, password: string) {
     log("loginOnSubmit()");
-    const loginResponse = await fetch(`http://${host}:${port}/api/auth/login`, {
+    const loginResponse = await fetch(`${httpProtocol}://${host}:${port}/api/auth/login`, {
       headers: {
         "Content-Type": "application/json"
       },
@@ -132,7 +132,7 @@ export default class App extends React.Component<{}, AppState> {
 
   async registerOnSubmit(first_name: string, last_name: string, email: string, password: string) {
     log("registerOnSubmit()");
-    const response = await fetch(`http://${host}:${port}/api/auth/register`, {
+    const response = await fetch(`${httpProtocol}://${host}:${port}/api/auth/register`, {
       headers: {
         "Content-Type": "application/json"
       },
