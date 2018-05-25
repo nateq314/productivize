@@ -4,6 +4,7 @@ import React from "react";
 import type { Todo } from "../TodoList/TodoList";
 import { Mutation } from "react-apollo";
 import { UPDATE_TODO_QUERY } from "../../queries";
+import DatePicker from "react-date-picker/dist/entry.nostyle";
 
 import { Subject } from "rxjs";
 import { debounceTime } from "rxjs/operators";
@@ -82,6 +83,25 @@ export default class TodoDetilsPane extends React.Component<TodoDetailsPaneProps
                       transition: this.state.mouseIsOver ? "0.5s background-color" : "none"
                     }}
                   />
+                </div>
+                <div className={`deadline`}>
+                  {/* <input
+                    className="deadline"
+                    type="date"
+                    onChange={e => {
+                      console.log("ONCHANGE");
+                      console.log(typeof e.currentTarget.value, e.currentTarget.value.length, e.currentTarget.value);
+                      console.log(
+                        new Date(
+                          ...e.currentTarget.value.split("-").map((n, idx) => {
+                            const int = parseInt(n, 10);
+                            return idx === 1 ? int - 1 : int;
+                          })
+                        )
+                      );
+                    }}
+                  /> */}
+                  <DatePicker />
                 </div>
                 <div className={`description ${this.state.descriptionIsEditing ? "editing" : ""}`}>
                   <label>DESCRIPTION</label>
@@ -181,7 +201,12 @@ export default class TodoDetilsPane extends React.Component<TodoDetailsPaneProps
 
   onMouseOut = (e: SyntheticMouseEvent<HTMLDivElement>) => {
     const relatedTarget: any = e.relatedTarget;
-    if (relatedTarget === undefined || relatedTarget.className === "todos" || relatedTarget.id === "App") {
+    if (
+      !relatedTarget ||
+      !relatedTarget.className ||
+      relatedTarget.className === "todos" ||
+      relatedTarget.id === "App"
+    ) {
       this.setState({
         mouseIsOver: false
       });

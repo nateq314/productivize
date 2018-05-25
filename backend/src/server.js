@@ -47,7 +47,7 @@ app.use(
     endpointURL: "/api/graphql",
     subscriptionsEndpoint: `ws://localhost:${PORT}/subscriptions`,
     passHeader:
-      "'Authorization': 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImVtYWlsIjoibl9xdWFybGVzQGhvdG1haWwuY29tIiwiZmlyc3RfbmFtZSI6Ik5hdGhhbiIsImxhc3RfbmFtZSI6IlF1YXJsZXMiLCJjcmVhdGVkX2F0IjpudWxsLCJ1cGRhdGVkX2F0IjpudWxsLCJpYXQiOjE1MjE3Njc4NjN9.PODtfhozXpNYkKEeZOaqiLirGLuP12Jt-ezCLLqknv0'"
+      "'Authorization': 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImVtYWlsIjoibl9xdWFybGVzQGhvdG1haWwuY29tIiwiZmlyc3RfbmFtZSI6Ik5hdGhhbiIsImxhc3RfbmFtZSI6IlF1YXJsZXMiLCJjcmVhdGVkX2F0IjoiMjAxOC0wMy0yM1QxNTowMToyNy43ODlaIiwidXBkYXRlZF9hdCI6IjIwMTgtMDQtMDNUMDE6NDQ6MDYuMjc5WiIsImlhdCI6MTUyMjcxOTkyMH0.mBDLS8UIJ52CmdQEtWF9toxpu-CCxjx_kWXmWdG5p90'"
   })
 );
 app.use("/api/auth", bodyParser.json(), AuthController);

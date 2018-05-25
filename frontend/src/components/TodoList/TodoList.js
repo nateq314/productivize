@@ -18,6 +18,7 @@ export type Todo = {
   description: string,
   completedOn: number,
   important: boolean,
+  deadline: number,
   created_at: number,
   updated_at: number
 };

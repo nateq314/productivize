@@ -5,6 +5,7 @@ export const FETCH_TODOS_QUERY = gql`
     todos(user_id: $user_id) {
       id
       content
+      deadline
       description
       important
       completedOn
@@ -19,6 +20,7 @@ export const CREATE_TODO_QUERY = gql`
     createTodo(user_id: $user_id, content: $content) {
       id
       content
+      deadline
       description
       important
       completedOn
@@ -43,16 +45,25 @@ export const DELETE_TODO_QUERY = gql`
 `;
 
 export const UPDATE_TODO_QUERY = gql`
-  mutation updateTodo($id: Int!, $content: String, $description: String, $important: Boolean, $completedOn: Date) {
+  mutation updateTodo(
+    $id: Int!
+    $content: String
+    $description: String
+    $important: Boolean
+    $completedOn: Date
+    $deadline: Date
+  ) {
     updateTodo(
       id: $id
       content: $content
       description: $description
       important: $important
       completedOn: $completedOn
+      deadline: $deadline
     ) {
       id
       content
+      deadline
       description
       important
       completedOn
@@ -70,6 +81,7 @@ export const UPDATE_TODOS_SUBSCRIPTION = gql`
         content
         description
         important
+        deadline
         completedOn
         created_at
         updated_at
@@ -79,6 +91,7 @@ export const UPDATE_TODOS_SUBSCRIPTION = gql`
         content
         description
         important
+        deadline
         completedOn
         created_at
         updated_at

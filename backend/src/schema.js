@@ -96,6 +96,7 @@ const resolvers = {
     },
     updateTodo: async (root, { id, ...updates }) => {
       updates.updated_at = new Date();
+      console.log("updates:", updates);
       const result = await Todo.query().patchAndFetchById(id, updates);
       const { user_id, ...todoUpdated } = result;
       const todosUpdate = { todoUpdated };
@@ -117,9 +118,8 @@ const resolvers = {
       return value.getTime();
     },
     parseLiteral(ast) {
-      console.log("ast:", ast);
       if (ast.kind === Kind.INT) {
-        return parseInt(ast.value, 10);
+        return new Date(parseInt(ast.value, 10));
       }
       return null;
     }
