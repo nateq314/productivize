@@ -105,6 +105,11 @@
   .react-date-picker {
     position: relative;
 
+    .react-date-picker__button {
+      display: inline-block;
+      background-color: #fff;
+    }
+
     .react-date-picker__button__input {
       background-color: #fff;
       display: inline-block;
