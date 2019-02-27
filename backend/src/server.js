@@ -24,15 +24,16 @@ function getFullPath(filename) {
   return path.join(__dirname, "../", "certs", filename);
 }
 
-const https_options = {
-  key: fs.readFileSync(getFullPath("productivize.key")),
-  cert: fs.readFileSync(getFullPath("productivize_net.crt")),
-  ca: [
-    fs.readFileSync(getFullPath("COMODORSADomainValidationSecureServerCA.crt")),
-    fs.readFileSync(getFullPath("COMODORSAAddTrustCA.crt"))
-  ],
-  passphrase: process.env.SSL_CERT_PW
-};
+const https_options = isProd
+  ? {
+      key: fs.readFileSync(getFullPath("privkey.pem")),
+      cert: fs.readFileSync(getFullPath("fullchain.pem"))
+      // ca: [
+      //   fs.readFileSync(getFullPath("cert.pem")),
+      //   fs.readFileSync(getFullPath("chain.pem"))
+      // ]
+    }
+  : {};
 
 app.use(cors());
 app.use(
@@ -52,7 +53,9 @@ app.use(
 );
 app.use("/api/auth", bodyParser.json(), AuthController);
 
-const ws = isProd ? https.createServer(https_options, app) : http.createServer(app);
+const ws = isProd
+  ? https.createServer(https_options, app)
+  : http.createServer(app);
 ws.listen(PORT, () => {
   console.log(`GraphQL Server is now running on port ${PORT}`);
 

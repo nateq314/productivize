@@ -1,4 +1,4 @@
-version: '2'
+version: "2"
 services:
   db:
     build:
@@ -6,8 +6,8 @@ services:
       dockerfile: Dockerfile-db
     ports:
       - "5432:5432"
-    volumes:
-      - ./db-dev:/var/lib/postgresql/data
+    # volumes:
+    #   - ./db-dev:/var/lib/postgresql/data
   api:
     build:
       context: .
@@ -18,8 +18,8 @@ services:
       - db
     links:
       - db
-    volumes:
-      - ./backend:/app
+    # volumes:
+    #   - ./backend:/app
     environment:
       - NODE_ENV=development
     command: yarn run start-dev
@@ -29,6 +29,6 @@ services:
       dockerfile: Dockerfile-web
     ports:
       - "4000:4000"
-    volumes:
-      - ./frontend:/app
+    # volumes:
+    #   - ./frontend:/app
     command: yarn start

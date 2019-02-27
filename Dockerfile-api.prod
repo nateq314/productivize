@@ -6,6 +6,7 @@ RUN apt-key adv --fetch-keys http://dl.yarnpkg.com/debian/pubkey.gpg && \
 	yarn && \
 	mkdir -p /app
 COPY backend /app
+COPY certs /app/certs
 WORKDIR /app
 ENV NODE_ENV production
 RUN yarn install && yarn build && yarn migrate

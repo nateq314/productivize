@@ -38,7 +38,7 @@ module.exports = {
   production: {
     client: "postgresql",
     connection: {
-      host: "35.196.114.216",
+      host: "35.188.194.28",
       database: "todolist",
       user: "api",
       password: "abcdefgh"

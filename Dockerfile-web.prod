@@ -6,6 +6,7 @@ RUN apt-key adv --fetch-keys http://dl.yarnpkg.com/debian/pubkey.gpg && \
 	yarn && \
 	mkdir -p /app
 COPY frontend /app
+COPY certs /app/certs
 WORKDIR /app
 RUN yarn install && yarn build
 

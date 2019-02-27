@@ -23,7 +23,10 @@ type TodoDetailsPaneState = {
   mouseIsOver: boolean
 };
 
-export default class TodoDetilsPane extends React.Component<TodoDetailsPaneProps, TodoDetailsPaneState> {
+export default class TodoDetilsPane extends React.Component<
+  TodoDetailsPaneProps,
+  TodoDetailsPaneState
+> {
   state = {
     content: this.props.todo && this.props.todo.content,
     contentIsEditing: false,
@@ -49,16 +52,18 @@ export default class TodoDetilsPane extends React.Component<TodoDetailsPaneProps
         {(updateTodo, { data }) => {
           if (!this.inputObserver$) {
             this.inputObserver$ = new Subject();
-            this.inputObserver$.pipe(debounceTime(500)).subscribe(description => {
-              if (this.props.todo) {
-                updateTodo({
-                  variables: {
-                    id: this.props.todo.id,
-                    description
-                  }
-                });
-              }
-            });
+            this.inputObserver$
+              .pipe(debounceTime(500))
+              .subscribe((description) => {
+                if (this.props.todo) {
+                  updateTodo({
+                    variables: {
+                      id: this.props.todo.id,
+                      description
+                    }
+                  });
+                }
+              });
           }
           return (
             <div
@@ -71,7 +76,11 @@ export default class TodoDetilsPane extends React.Component<TodoDetailsPaneProps
               onMouseOut={this.onMouseOut}
             >
               <div id="detailsContainer">
-                <div className={`content ${this.state.contentIsEditing ? "editing" : ""}`}>
+                <div
+                  className={`content ${
+                    this.state.contentIsEditing ? "editing" : ""
+                  }`}
+                >
                   <textarea
                     readOnly={!this.state.contentIsEditing}
                     value={this.state.content || ""}
@@ -80,30 +89,20 @@ export default class TodoDetilsPane extends React.Component<TodoDetailsPaneProps
                     onClick={this.onClick("content")}
                     onKeyDown={this.onKeyDown("content", updateTodo, false)}
                     style={{
-                      transition: this.state.mouseIsOver ? "0.5s background-color" : "none"
+                      transition: this.state.mouseIsOver
+                        ? "0.5s background-color"
+                        : "none"
                     }}
                   />
                 </div>
-                <div className={`deadline`}>
-                  {/* <input
-                    className="deadline"
-                    type="date"
-                    onChange={e => {
-                      console.log("ONCHANGE");
-                      console.log(typeof e.currentTarget.value, e.currentTarget.value.length, e.currentTarget.value);
-                      console.log(
-                        new Date(
-                          ...e.currentTarget.value.split("-").map((n, idx) => {
-                            const int = parseInt(n, 10);
-                            return idx === 1 ? int - 1 : int;
-                          })
-                        )
-                      );
-                    }}
-                  /> */}
+                {/* <div className={`deadline`}>
                   <DatePicker />
-                </div>
-                <div className={`description ${this.state.descriptionIsEditing ? "editing" : ""}`}>
+                </div> */}
+                <div
+                  className={`description ${
+                    this.state.descriptionIsEditing ? "editing" : ""
+                  }`}
+                >
                   <label>DESCRIPTION</label>
                   {/* <span className={`smallprint`}>(Ctrl+Enter to submit)</span> */}
                   <textarea
@@ -111,7 +110,9 @@ export default class TodoDetilsPane extends React.Component<TodoDetailsPaneProps
                     readOnly={!this.state.descriptionIsEditing}
                     value={this.state.description || ""}
                     onBlur={this.onBlur("description")}
-                    onChange={(e: SyntheticKeyboardEvent<HTMLTextAreaElement>) => {
+                    onChange={(
+                      e: SyntheticKeyboardEvent<HTMLTextAreaElement>
+                    ) => {
                       this.inputObserver$.next(e.currentTarget.value);
                       this.onChange("description")(e);
                     }}
@@ -119,7 +120,9 @@ export default class TodoDetilsPane extends React.Component<TodoDetailsPaneProps
                     onKeyDown={this.onKeyDown("description", updateTodo)}
                     placeholder="(Enter to-do description here)"
                     style={{
-                      transition: this.state.mouseIsOver ? "0.5s background-color" : "none"
+                      transition: this.state.mouseIsOver
+                        ? "0.5s background-color"
+                        : "none"
                     }}
                   />
                 </div>
@@ -140,7 +143,9 @@ export default class TodoDetilsPane extends React.Component<TodoDetailsPaneProps
     }
   };
 
-  onChange = (name: string) => (e: SyntheticKeyboardEvent<HTMLTextAreaElement>) => {
+  onChange = (name: string) => (
+    e: SyntheticKeyboardEvent<HTMLTextAreaElement>
+  ) => {
     this.setState({
       [name]: e.currentTarget.value
     });
