@@ -21,7 +21,7 @@ type QueryChildrenProps = {
   },
   error: any,
   loading: boolean,
-  subscribeToMore: any => void
+  subscribeToMore: (any) => void
 };
 
 type TodosUpdateSubscriptionResponse = {
@@ -36,7 +36,12 @@ type TodosUpdateSubscriptionResponse = {
   }
 };
 
-export default ({ user, contextMenu, clearContextMenu, setContextMenu }: HomeProps) => (
+export default ({
+  user,
+  contextMenu,
+  clearContextMenu,
+  setContextMenu
+}: HomeProps) => (
   <div id="Home">
     <Query query={FETCH_TODOS_QUERY} variables={{ user_id: user.id }}>
       {({ data, error, loading, subscribeToMore }: QueryChildrenProps) => {
@@ -53,9 +58,16 @@ export default ({ user, contextMenu, clearContextMenu, setContextMenu }: HomePro
               subscribeToMore({
                 document: UPDATE_TODOS_SUBSCRIPTION,
                 variables: { user_id: user.id },
-                updateQuery(prev, { subscriptionData }: TodosUpdateSubscriptionResponse) {
+                updateQuery(
+                  prev,
+                  { subscriptionData }: TodosUpdateSubscriptionResponse
+                ) {
                   if (!subscriptionData.data) return prev;
-                  const { todoAdded, todoUpdated, todoDeleted } = subscriptionData.data.todosUpdate;
+                  const {
+                    todoAdded,
+                    todoUpdated,
+                    todoDeleted
+                  } = subscriptionData.data.todosUpdate;
                   if (todoAdded) {
                     return {
                       ...prev,
@@ -63,17 +75,28 @@ export default ({ user, contextMenu, clearContextMenu, setContextMenu }: HomePro
                     };
                   }
                   if (todoUpdated) {
-                    const idx = prev.todos.findIndex(todo => todo.id === todoUpdated.id);
+                    const idx = prev.todos.findIndex(
+                      (todo) => todo.id === todoUpdated.id
+                    );
                     return {
                       ...prev,
-                      todos: [...prev.todos.slice(0, idx), todoUpdated, ...prev.todos.slice(idx + 1)]
+                      todos: [
+                        ...prev.todos.slice(0, idx),
+                        todoUpdated,
+                        ...prev.todos.slice(idx + 1)
+                      ]
                     };
                   }
                   if (todoDeleted) {
-                    const idx = prev.todos.findIndex(todo => todo.id === todoDeleted.id);
+                    const idx = prev.todos.findIndex(
+                      (todo) => todo.id === todoDeleted.id
+                    );
                     return {
                       ...prev,
-                      todos: [...prev.todos.slice(0, idx), ...prev.todos.slice(idx + 1)]
+                      todos: [
+                        ...prev.todos.slice(0, idx),
+                        ...prev.todos.slice(idx + 1)
+                      ]
                     };
                   }
                 }

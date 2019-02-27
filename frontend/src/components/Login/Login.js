@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
+import Logo from "../svgs/faCheckCircle.svg.js";
 
 import "./Login.css";
 
@@ -13,8 +14,9 @@ let email, password;
 
 export default ({ onSubmit }: LoginProps) => (
   <div id="Login">
+    <Logo className="logo" />
     <form
-      onSubmit={e => {
+      onSubmit={(e) => {
         if (email && password) {
           e.preventDefault();
           onSubmit(email.value, password.value);
@@ -24,7 +26,7 @@ export default ({ onSubmit }: LoginProps) => (
       <div className="form-group">
         <input
           id="email"
-          ref={node => {
+          ref={(node) => {
             email = node;
           }}
           placeholder="Email address"
@@ -36,7 +38,7 @@ export default ({ onSubmit }: LoginProps) => (
         <input
           id="password"
           type="password"
-          ref={node => {
+          ref={(node) => {
             password = node;
           }}
           placeholder="Password"

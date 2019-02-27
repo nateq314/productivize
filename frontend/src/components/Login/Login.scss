@@ -6,9 +6,57 @@
   height: 100vh;
   grid-template-columns: auto;
   grid-template-rows: auto;
-  grid-template-areas: "main";
+  grid-template-areas: "logo" "main";
   justify-items: center;
-  align-items: center;
+  align-content: start;
+
+  svg.logo {
+    grid-area: logo;
+    height: 200px;
+    margin: 80px 0;
+    fill: #ff0000;
+    fill-opacity: 0.2;
+    animation: foo 30s linear infinite;
+  }
+
+  @keyframes foo {
+    0% {
+      fill: #ff0000;
+    }
+    9% {
+      fill: #ff9000;
+    }
+    18% {
+      fill: #ffff00;
+    }
+    27% {
+      fill: #90ff00;
+    }
+    36% {
+      fill: #00ff00;
+    }
+    45% {
+      fill: #00ff90;
+    }
+    55% {
+      fill: #00ffff;
+    }
+    64% {
+      fill: #0090ff;
+    }
+    73% {
+      fill: #9000ff;
+    }
+    82% {
+      fill: #ff00ff;
+    }
+    91% {
+      fill: #ff0090;
+    }
+    100% {
+      fill: #ff0000;
+    }
+  }
 
   form {
     grid-area: main;

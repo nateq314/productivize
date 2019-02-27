@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
+import Logo from "../../components/svgs/faCheckCircle.svg.js";
 
 import "../../components/Login/Login.css";
 import "./Register.css";
@@ -14,18 +15,24 @@ let first_name, last_name, email, password;
 
 export default ({ onRegister }: RegisterProps) => (
   <div id="Register">
+    <Logo className="logo" />
     <form
-      onSubmit={e => {
+      onSubmit={(e) => {
         e.preventDefault();
         if (first_name && last_name && email && password) {
-          onRegister(first_name.value, last_name.value, email.value, password.value);
+          onRegister(
+            first_name.value,
+            last_name.value,
+            email.value,
+            password.value
+          );
         }
       }}
     >
       <div className="form-group">
         <input
           id="first_name"
-          ref={node => {
+          ref={(node) => {
             first_name = node;
           }}
           placeholder="First Name"
@@ -35,7 +42,7 @@ export default ({ onRegister }: RegisterProps) => (
       <div className="form-group">
         <input
           id="last_name"
-          ref={node => {
+          ref={(node) => {
             last_name = node;
           }}
           placeholder="Last Name"
@@ -45,7 +52,7 @@ export default ({ onRegister }: RegisterProps) => (
       <div className="form-group">
         <input
           id="email"
-          ref={node => {
+          ref={(node) => {
             email = node;
           }}
           placeholder="Email address"
@@ -56,7 +63,7 @@ export default ({ onRegister }: RegisterProps) => (
         <input
           id="password"
           type="password"
-          ref={node => {
+          ref={(node) => {
             password = node;
           }}
           placeholder="Password"

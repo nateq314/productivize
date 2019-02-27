@@ -5,8 +5,8 @@ RUN apt-key adv --fetch-keys http://dl.yarnpkg.com/debian/pubkey.gpg && \
 	apt-get update && apt-get install -y \
 	yarn && \
 	mkdir -p /app
-COPY frontend /app
 WORKDIR /app
+COPY ./frontend/package.json .
 RUN yarn install
 
 EXPOSE 4000
